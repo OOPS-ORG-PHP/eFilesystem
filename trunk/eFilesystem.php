@@ -2,6 +2,7 @@
 /**
  * Project:	eFilesystem:: Extended File System API
  * File:	eFilesystem.php
+ * Depnedency: pear.oops.org/ePrint over 1.0.1
  *
  * PHP version 5
  *
@@ -14,7 +15,7 @@
  * @author		JoungKyun.Kim <http://oops.org>
  * @copyright	1997-2009 OOPS.ORG
  * @license		BSD License
- * @version		CVS: $Id: eFilesystem.php,v 1.1.1.1 2009-07-12 20:39:14 oops Exp $
+ * @version		CVS: $Id: eFilesystem.php,v 1.2 2009-07-12 20:51:00 oops Exp $
  * @link		http://pear.oops.org/package/eFilesystem
  * @since		File available since relase 1.0.0
  */
