@@ -15,7 +15,7 @@
  * @author		JoungKyun.Kim <http://oops.org>
  * @copyright	1997-2009 OOPS.ORG
  * @license		BSD License
- * @version		CVS: $Id: eFilesystem.php,v 1.2 2009-07-12 20:51:00 oops Exp $
+ * @version		CVS: $Id: eFilesystem.php,v 1.3 2009-08-08 08:09:14 oops Exp $
  * @link		http://pear.oops.org/package/eFilesystem
  * @since		File available since relase 1.0.0
  */
@@ -71,7 +71,7 @@ class eFilesystem {
 	}
 	// }}}
 
-	// {{{ function mkdir_p {$path, $mode)
+	// {{{ function mkdir_p ($path, $mode)
 	/**
 	 * Attempts to create the directory specified by pathname.
 	 * If does not parent directory, this API create success.
