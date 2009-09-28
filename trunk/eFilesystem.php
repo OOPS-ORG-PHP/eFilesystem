@@ -15,7 +15,7 @@
  * @author		JoungKyun.Kim <http://oops.org>
  * @copyright	1997-2009 OOPS.ORG
  * @license		BSD License
- * @version		CVS: $Id: eFilesystem.php,v 1.4 2009-09-28 12:24:46 oops Exp $
+ * @version		CVS: $Id: eFilesystem.php,v 1.5 2009-09-28 13:37:01 oops Exp $
  * @link		http://pear.oops.org/package/eFilesystem
  * @since		File available since relase 1.0.0
  */
@@ -33,6 +33,8 @@ class eFilesystem {
 	// {{{ properties
 	const RELATIVE = 1;
 	const ABSOLUTE = 2;
+
+	static private $make_ini_callback_key = null;
 	// }}}
 
 	// {{{ function file_nr ($f, $use_include_path = false, $resource = null)
@@ -488,6 +490,50 @@ class eFilesystem {
 		return is_array ($ret) ? $ret : array ();
 	}
 	// }}}
+
+	// {{{ (array) eFilesystem::make_ini ($array)
+	/**
+	 * Make configuration that collespond on parse_ini method
+	 *
+	 * @access	public
+	 * @return	string|false	make configuration strings
+	 * @param	array	configuraion array that has same foramt on result of parse_ini
+	 */
+	function make_ini ($array) {
+		if ( ! is_array ($array) ) {
+			ePrint::warning ('Invalid type of argument 1. Array is valid');
+			return false;
+		}
+
+		$buf = '';
+		foreach ( $array as $key => $v ) {
+			$r = "[{$key}]\n";
+
+			self::make_ini_callback ($r, $v);
+			$buf .= preg_replace ('/\. = /', ' = ', $r) . "\n";
+			#$buf .= $r . "\n";
+		}
+
+		return $buf;
+	}
+	// }}}
+
+	private function make_ini_callback (&$buf, $v) {
+		if ( ! is_array ($v) ) {
+			$buf .= sprintf (" = %s\n", $v);
+			return;
+		}
+
+		foreach ( $v as $key => $val ) {
+			if ( ! is_array ($val) )
+				$buf .= sprintf ('%s%s.', self::$make_ini_callback_key, $key);
+
+			self::$make_ini_callback_key .= $key . '.';
+			self::make_ini_callback ($buf, $val);
+			self::$make_ini_callback_key = preg_replace ('/[^.]+\.$/', '', self::$make_ini_callback_key);
+		}
+
+	}
 }
 
 ?>
