@@ -15,7 +15,7 @@
  * @author		JoungKyun.Kim <http://oops.org>
  * @copyright	1997-2009 OOPS.ORG
  * @license		BSD License
- * @version		CVS: $Id: eFilesystem.php,v 1.3 2009-08-08 08:09:14 oops Exp $
+ * @version		CVS: $Id: eFilesystem.php,v 1.4 2009-09-28 12:24:46 oops Exp $
  * @link		http://pear.oops.org/package/eFilesystem
  * @since		File available since relase 1.0.0
  */
@@ -406,6 +406,86 @@ class eFilesystem {
 		}
 
 		return $file;
+	}
+	// }}}
+
+	// {{{ (array) eFilesystem::parse_ini ($f)
+	/**
+	 * parse configuration file or string
+	 * @access	public
+	 * @return	array	The settings are returned as an associative array on success, and return empty array on failure.
+	 * @param	string	configuraion file or strings
+	 */
+	function parse_ini ($f) {
+		if ( is_array ($f) || is_object ($f) ) {
+			ePrint::warning ('Invalid type of argument 1. File or string is valid');
+			return array ();
+		}
+
+		$contents = file_exists ($f) ? self::file_nr ($f) : split ('[\r\n]+', $f);
+		if ( $contents === false || ! is_array ($contents) )
+			return array ();
+
+		foreach ( $contents as $r ) {
+			$r = preg_replace ('/[ \t]*;.*/', '', $r);
+
+			if ( ! $r )
+				continue;
+
+			if ( preg_match ('/^\[([^\]]+)\]$/', $r, $matches) ) {
+				/* new variable */
+				$varname = $matches[1];
+			} else {
+				/**
+				 * invalid format
+				 * must variable = value format
+				 */
+				if ( ! preg_match ('/^([^=]+)=(.*)$/', $r, $matches) )
+					continue;
+
+				$_varname = trim ($matches[1]);
+				$_value   = trim ($matches[2]);
+
+				$var = '$ret[\'' . $varname . '\']';
+				if ( $_varname == 'value' ) {
+					if ( preg_match ('/^(true|false|on|off|[01])$/', $_value, $matches) ) {
+						switch ($matches[1]) {
+							case 'true' :
+							case 'on' :
+							case '1' :
+								$var .= ' = true;';
+								break;
+							default :
+								$var .= ' = false;';
+						}
+					} else
+						$var .= ' = \'' . $_value . "';";
+				} else {
+					$_varname_r = explode ('.', $_varname);
+					for ( $i=0; $i<count ($_varname_r); $i++ ) {
+						$var_quote = is_numeric ($_varname_r[$i]) ? '' : '\'';
+						$var .= '[' . $var_quote . $_varname_r[$i] . $var_quote . ']';
+					}
+
+					if ( preg_match ('/^(true|false|on|off|[01])$/', $_value, $matches) ) {
+						switch ($matches[1]) {
+							case 'true' :
+							case 'on' :
+							case '1' :
+								$var .= ' = true;';
+								break;
+							default :
+								$var .= ' = false;';
+						}
+					} else
+						$var .= ' = \'' . $_value . "';";
+				}
+				//echo $var . "\n";
+				eval ($var);
+			}
+		}
+
+		return is_array ($ret) ? $ret : array ();
 	}
 	// }}}
 }
