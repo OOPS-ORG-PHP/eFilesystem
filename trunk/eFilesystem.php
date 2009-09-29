@@ -15,7 +15,7 @@
  * @author		JoungKyun.Kim <http://oops.org>
  * @copyright	1997-2009 OOPS.ORG
  * @license		BSD License
- * @version		CVS: $Id: eFilesystem.php,v 1.5 2009-09-28 13:37:01 oops Exp $
+ * @version		CVS: $Id: eFilesystem.php,v 1.6 2009-09-29 13:44:41 oops Exp $
  * @link		http://pear.oops.org/package/eFilesystem
  * @since		File available since relase 1.0.0
  */
@@ -509,6 +509,11 @@ class eFilesystem {
 		foreach ( $array as $key => $v ) {
 			$r = "[{$key}]\n";
 
+			if ( ! is_array ($v) ) {
+				ePrint::warning ('Invalid array data format');
+				return false;
+			}
+
 			self::make_ini_callback ($r, $v);
 			$buf .= preg_replace ('/\. = /', ' = ', $r) . "\n";
 			#$buf .= $r . "\n";
@@ -518,6 +523,7 @@ class eFilesystem {
 	}
 	// }}}
 
+	// {{{ (void) eFilesystem::make_ini_callback (&$buf, $v)
 	private function make_ini_callback (&$buf, $v) {
 		if ( ! is_array ($v) ) {
 			$buf .= sprintf (" = %s\n", $v);
@@ -534,6 +540,7 @@ class eFilesystem {
 		}
 
 	}
+	// }}}
 }
 
 ?>
