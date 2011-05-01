@@ -13,7 +13,7 @@
  * @author		JoungKyun.Kim <http://oops.org>
  * @copyright	1997-2009 OOPS.ORG
  * @license		BSD License
- * @version		CVS: $Id: test.php,v 1.1.1.1 2009-07-12 20:39:14 oops Exp $
+ * @version		CVS: $Id$
  * @link		http://pear.oops.org/package/ePrint
  * @since		File available since relase 0.0.1
  */

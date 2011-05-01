@@ -15,7 +15,7 @@
  * @author		JoungKyun.Kim <http://oops.org>
  * @copyright	1997-2009 OOPS.ORG
  * @license		BSD License
- * @version		CVS: $Id: eFilesystem.php,v 1.7 2009-09-29 13:45:24 oops Exp $
+ * @version		CVS: $Id$
  * @link		http://pear.oops.org/package/eFilesystem
  * @since		File available since relase 1.0.0
  */
