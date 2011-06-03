@@ -424,7 +424,7 @@ class eFilesystem {
 			return array ();
 		}
 
-		$contents = file_exists ($f) ? self::file_nr ($f) : split ('[\r\n]+', $f);
+		$contents = file_exists ($f) ? self::file_nr ($f) : preg_split ('/[\r\n]+/', $f);
 		if ( $contents === false || ! is_array ($contents) )
 			return array ();
 
