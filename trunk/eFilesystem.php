@@ -411,6 +411,47 @@ class eFilesystem {
 	}
 	// }}}
 
+	// function prompt ($prompt, $hidden = false) {{{
+	/**
+	 * print shell line prompt and get values
+	 * @access	public
+	 * @return	string
+	 * @param	string	print prompt string to stdout
+	 * @param	boolean (optional) hidden input strings
+	 */
+	function prompt ($prompt, $hidden = false) {
+		$prompt = ! $prompt ? '$ ' : $prompt;
+
+		if ( $hidden === false && function_exists ('readline') )
+			return readline ($prompt);
+
+		printf ('%s', $prompt);
+
+		if ( $hidden !== false )
+			system ('stty -echo >& /dev/null');
+
+		$str = '';
+
+		while ( $c != "\n" ) {
+			if ( ($c = fgetc (STDIN)) != "\n" ) {
+				@ob_flush ();
+				flush ();
+				echo '*';
+				$str .= $c;
+			}
+		}
+
+		if ( $hidden !== false ) {
+			system ('stty echo >& /dev/null');
+			@ob_flush ();
+			flush ();
+			echo "\n";
+		}
+
+		return $str;
+	}
+	// }}}
+
 	// {{{ (array) eFilesystem::parse_ini ($f)
 	/**
 	 * parse configuration file or string
