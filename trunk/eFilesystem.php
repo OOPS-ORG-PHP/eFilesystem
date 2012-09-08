@@ -294,7 +294,7 @@ class eFilesystem extends ePrint {
 
 	// {{{ function tree ($dir = '.', $prefix = '', $recursive = false)
 	/**
-	 * get directory tree for given path
+	 * print directory tree for given path
 	 *
 	 * The examples:
 	 * {@example pear_eFilesystem/test.php 37 18}
