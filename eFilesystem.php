@@ -27,7 +27,7 @@ require_once 'ePrint.php';
  * Base classes for Extended Filesystem API
  * @package eFilesystem
  */
-class eFilesystem {
+class eFilesystem extends ePrint {
 	// {{{ properties
 	const RELATIVE = 1;
 	const ABSOLUTE = 2;
@@ -172,7 +172,7 @@ class eFilesystem {
 	 */
 	function unlink_r ($path) {
 		if ( ! trim ($path) ) {
-			ePrint::warning ('PATH is null string for eFilesystem::unlink_r()');
+			self::warning ('PATH is null string for eFilesystem::unlink_r()');
 			return false;
 		}
 
@@ -182,7 +182,7 @@ class eFilesystem {
 		if ( preg_match ('/([*])|({[^,]+,)/', $path) ) {
 			$l = glob ($path, GLOB_BRACE);
 			if ( $l === false || empty ($l) ) {
-				ePrint::warning ("11 {$path} not found for eFilesystem::unlink_r()");
+				self::warning ("11 {$path} not found for eFilesystem::unlink_r()");
 				return false;
 			}
 
@@ -192,7 +192,7 @@ class eFilesystem {
 				else {
 					self::safe_unlink ($v);
 					if ( $r !== true ) {
-						ePrint::warning (self::safe_unlink_msg ($r, $path));
+						self::warning (self::safe_unlink_msg ($r, $path));
 						return false;
 					}
 				}
@@ -202,7 +202,7 @@ class eFilesystem {
 		}
 
 		if ( ! file_exists ($path) ) {
-			ePrint::warning ("{$path} not found for eFilesystem::unlink_r()");
+			self::warning ("{$path} not found for eFilesystem::unlink_r()");
 			return false;
 		}
 
@@ -212,7 +212,7 @@ class eFilesystem {
 		if ( ! is_dir ($path) ) {
 			$r = self::safe_unlink ($path);
 			if ( $r !== true ) {
-				ePrint::warning (self::safe_unlink_msg ($r, $path));
+				self::warning (self::safe_unlink_msg ($r, $path));
 				return false;
 			}
 			return $r;
@@ -234,7 +234,7 @@ class eFilesystem {
 			else {
 				$r = self::safe_unlink ($fullpath);
 				if ( $r !== true )
-					ePrint::warning (self::safe_unlink_msg ($r, $fullpath));
+					self::warning (self::safe_unlink_msg ($r, $fullpath));
 			}
 
 			if ( $r !== true ) {
@@ -317,7 +317,7 @@ class eFilesystem {
 
 		if ( $recursive === false ) {
 			if ( php_sapi_name () == 'cli' )
-				ePrint::aPrintf ("blue", "%s/\n", $dir);
+				self::aPrintf ("blue", "%s/\n", $dir);
 			else
 				echo "$dir/\n";
 		}
@@ -335,7 +335,7 @@ class eFilesystem {
 			$_prefix = $last ? '`-- ' : '|-- ';
 
 			if ( php_sapi_name () == 'cli' && is_dir ($fullpath) )
-				$fname = ePrint::asPrintf ('blue', "%s/", $list[$i]);
+				$fname = self::asPrintf ('blue', "%s/", $list[$i]);
 			else {
 				$fname = $list[$i];
 				if ( is_dir ($fullpath) )
@@ -488,7 +488,7 @@ class eFilesystem {
 	 */
 	function parse_ini ($f) {
 		if ( is_array ($f) || is_object ($f) ) {
-			ePrint::warning ('Invalid type of argument 1. File or string is valid');
+			self::warning ('Invalid type of argument 1. File or string is valid');
 			return array ();
 		}
 
@@ -569,7 +569,7 @@ class eFilesystem {
 	 */
 	function make_ini ($array) {
 		if ( ! is_array ($array) ) {
-			ePrint::warning ('Invalid type of argument 1. Array is valid');
+			self::warning ('Invalid type of argument 1. Array is valid');
 			return false;
 		}
 
@@ -578,7 +578,7 @@ class eFilesystem {
 			$r = "[{$key}]\n";
 
 			if ( ! is_array ($v) ) {
-				ePrint::warning ('Invalid array data format');
+				self::warning ('Invalid array data format');
 				return false;
 			}
 
