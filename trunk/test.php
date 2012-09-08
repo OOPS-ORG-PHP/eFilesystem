@@ -4,14 +4,14 @@
  *
  * eFilesyste class
  *
- * @category	System
- * @package		eFilesystem
- * @author		JoungKyun.Kim <http://oops.org>
- * @copyright	(c) 2009 OOPS.ORG
- * @license		BSD
- * @version		$Id$
- * @link		http://pear.oops.org/package/ePrint
- * @since		File available since relase 0.0.1
+ * @category  System
+ * @package   eFilesystem
+ * @author    JoungKyun.Kim <http://oops.org>
+ * @copyright (c) 2009 OOPS.ORG
+ * @license   BSD
+ * @version   $Id$
+ * @link      http://pear.oops.org/package/ePrint
+ * @since     File available since relase 0.0.1
  */
 
 require_once 'eFilesystem.php';

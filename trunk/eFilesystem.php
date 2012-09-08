@@ -43,7 +43,7 @@ class eFilesystem {
 	 * no \r\n or \n character on array members.
 	 *
 	 * The examples:
-	 * {@example pear_eFilesystem/test.php 30 3}
+	 * {@example pear_eFilesystem/test.php 26 3}
 	 *
 	 * @access public
 	 * @return array    Array or false if not found file path nor file resource.
@@ -84,7 +84,7 @@ class eFilesystem {
 	 * This means that same operate with mkdir (path, mode, true) of php
 	 *
 	 * The examples:
-	 * {@example pear_eFilesystem/test.php 31 17}
+	 * {@example pear_eFilesystem/test.php 37 18}
 	 *
 	 * @access public
 	 * @return boolean|int return 1, already exists given path.<br>
@@ -163,7 +163,7 @@ class eFilesystem {
 	 * Deletes a file or directory that include some files
 	 *
 	 * The examples:
-	 * {@example pear_eFilesystem/test.php 60 3}
+	 * {@example pear_eFilesystem/test.php 56 3}
 	 *
 	 * @access public
 	 * @return boolean
@@ -253,7 +253,7 @@ class eFilesystem {
 	 * get dir list for given path
 	 *
 	 * The examples:
-	 * {@example pear_eFilesystem/test.php 64 6}
+	 * {@example pear_eFilesystem/test.php 60 6}
 	 *
 	 * @access public
 	 * @return array|false
@@ -299,7 +299,7 @@ class eFilesystem {
 	 * get directory tree for given path
 	 *
 	 * The examples:
-	 * {@example pear_eFilesystem/test.php 31 17}
+	 * {@example pear_eFilesystem/test.php 37 18}
 	 *
 	 * @access public
 	 * @return object obj->file is number of files.<br>
@@ -362,7 +362,7 @@ class eFilesystem {
 	 * get file list that under given path
 	 *
 	 * The examples:
-	 * {@example pear_eFilesystem/test.php 71 4}
+	 * {@example pear_eFilesystem/test.php 67 4}
 	 *
 	 * @access public
 	 * @return array   return array of file list. If given path is null or don't exist, return false.
