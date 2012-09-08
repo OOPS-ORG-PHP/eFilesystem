@@ -87,23 +87,21 @@ class eFilesystem extends ePrint {
 	 * {@example pear_eFilesystem/test.php 37 18}
 	 *
 	 * @access public
-	 * @return boolean|int return 1, already exists given path.<br>
-	 *                     return 2, given path is existed file.<br>
-	 *                     return false, create error by other error.<br>
-	 *                     return true, create success.
-	 * @param string       given path
-	 * @param int          (optional) The mode is 0777 by default, which means the widest
-	 *                     possible access. For more information on modes, read
-	 *                     the details on the chmod() page.
+	 * @return boolean return false, create error<br>
+	 *                 return true, create success.
+	 * @param string   given path
+	 * @param int      (optional) The mode is 0777 by default, which means the widest
+	 *                 possible access. For more information on modes, read
+	 *                 the details on the chmod() page.
 	 */
 	function mkdir_p ($path, $mode = 0777) {
 		$_path = realpath ($path);
 
 		if ( file_exists ($path) ) {
 			if ( is_dir ($path) )
-				return 1;
+				return false;
 			else
-				return 2;
+				return false;
 		}
 
 		return mkdir ($path, $mode, true);
