@@ -1,19 +1,15 @@
 <?php
 /**
- * Extended Print API
+ * Extended File system API
  *
- * ePrint class
- *
- * PHP version 5
- *
- * LICENSE: BSD license
+ * eFilesyste class
  *
  * @category	System
  * @package		eFilesystem
  * @author		JoungKyun.Kim <http://oops.org>
- * @copyright	1997-2009 OOPS.ORG
- * @license		BSD License
- * @version		CVS: $Id$
+ * @copyright	(c) 2009 OOPS.ORG
+ * @license		BSD
+ * @version		$Id$
  * @link		http://pear.oops.org/package/ePrint
  * @since		File available since relase 0.0.1
  */

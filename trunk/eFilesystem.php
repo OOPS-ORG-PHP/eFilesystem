@@ -1,23 +1,21 @@
 <?php
 /**
- * Project:	eFilesystem:: Extended File System API
- * File:	eFilesystem.php
+ * Project: eFilesystem:: Extended File System API
+ * File:    eFilesystem.php
  * Depnedency: pear.oops.org/ePrint over 1.0.1
  *
- * PHP version 5
+ * The eFilesystem class is supported various extended system function
  *
- * Copyright (c) 1997-2009 JoungKyun.Kim
- *
- * LICENSE: BSD license
- *
- * @category	System
- * @package		eFilesystem
- * @author		JoungKyun.Kim <http://oops.org>
- * @copyright	1997-2009 OOPS.ORG
- * @license		BSD License
- * @version		CVS: $Id$
- * @link		http://pear.oops.org/package/eFilesystem
- * @since		File available since relase 1.0.0
+ * @category    System
+ * @package     eFilesystem
+ * @author      JoungKyun.Kim <http://oops.org>
+ * @copyright   (c) 2009 OOPS.ORG
+ * @license     BSD
+ * @version     $Id$
+ * @link        http://pear.oops.org/package/eFilesystem
+ * @since       File available since relase 1.0.0
+ * @example     pear_eFilesystem/test.php Sameple codes of eFilesystem class
+ * @filesource
  */
 
 /**
@@ -27,7 +25,7 @@ require_once 'ePrint.php';
 
 /**
  * Base classes for Extended Filesystem API
- * @package		eFilesystem
+ * @package eFilesystem
  */
 class eFilesystem {
 	// {{{ properties
@@ -40,15 +38,20 @@ class eFilesystem {
 	// {{{ function file_nr ($f, $use_include_path = false, $resource = null)
 	/**
 	 * Reads entire file into an array
+	 *
 	 * file_nr api runs same file function of php. But file_nr has
 	 * no \r\n or \n character on array members.
-	 * @access	public
-	 * @return	array|false		Array or false if not found file path nor file resource.
-	 * @param	string		file path
-	 * @param	boolean		(optional) Search file path on include_path of php.
-	 * 						Defaults is false.
-	 * @param	resource	(optional) already opend file description resource
-	 * 						Defaults is null.
+	 *
+	 * The examples:
+	 * {@example pear_eFilesystem/test.php 30 3}
+	 *
+	 * @access public
+	 * @return array    Array or false if not found file path nor file resource.
+	 * @param  string   file path
+	 * @param  boolean  (optional) Search file path on include_path of php.
+	 *                  Defaults is false.
+	 * @param  resource (optional) already opend file description resource
+	 *                  Defaults is null.
 	 */
 	function file_nr ($f, $use_include_path = false, $resource = null) {
 		$fp = is_resource ($resource) ? $res : fopen ($f, 'rb', $use_include_path);
@@ -76,17 +79,22 @@ class eFilesystem {
 	// {{{ function mkdir_p ($path, $mode)
 	/**
 	 * Attempts to create the directory specified by pathname.
+	 *
 	 * If does not parent directory, this API create success.
 	 * This means that same operate with mkdir (path, mode, true) of php
-	 * @access	public
-	 * @return	boolean|int	return 1, already exists given path.<br>
-	 * 						return 2, given path is existed file.<br>
-	 * 						return false, create error by other error.<br>
-	 * 						return true, create success.
-	 * @param	string	given path
-	 * @param	int		(optional) The mode is 0777 by default, which means the widest
-	 * 					possible access. For more information on modes, read
-	 * 					the details on the chmod() page.
+	 *
+	 * The examples:
+	 * {@example pear_eFilesystem/test.php 31 17}
+	 *
+	 * @access public
+	 * @return boolean|int return 1, already exists given path.<br>
+	 *                     return 2, given path is existed file.<br>
+	 *                     return false, create error by other error.<br>
+	 *                     return true, create success.
+	 * @param string       given path
+	 * @param int          (optional) The mode is 0777 by default, which means the widest
+	 *                     possible access. For more information on modes, read
+	 *                     the details on the chmod() page.
 	 */
 	function mkdir_p ($path, $mode = 0777) {
 		$_path = realpath ($path);
@@ -105,12 +113,13 @@ class eFilesystem {
 	// {{{ function safe_unlink ($f)
 	/**
 	 * Deletes a file. If given file is directory, no error and return false.
-	 * @access	public
-	 * @return	bolean|int	return true, success<br>
-	 * 				return false, remove false<br>
-	 * 				return 2, file not found<br>
-	 * 				return 3, file is directory
-	 * @param	string	given file path
+	 *
+	 * @access public
+	 * @return bolean|int return true, success<br>
+	 *                    return false, remove false<br>
+	 *                    return 2, file not found<br>
+	 *                    return 3, file is directory
+	 * @param string      given file path
 	 */
 	function safe_unlink ($f) {
 		if ( file_exists ($f) ) {
@@ -128,10 +137,11 @@ class eFilesystem {
 	// {{{ function safe_unlink_msg ($r, $path = 'Given path')
 	/**
 	 * return message of eFilesystem::safe_unlink method return code
-	 * @access	private
-	 * @return	string
-	 * @param	integer	return code of safe_unlink method
-	 * @param	string	(optional) path
+	 *
+	 * @access private
+	 * @return string
+	 * @param  integer return code of safe_unlink method
+	 * @param  string  (optional) path
 	 */
 	private function safe_unlink_msg ($r, $path = 'Given path') {
 		if ( $r === true )
@@ -151,10 +161,14 @@ class eFilesystem {
 	// {{{ function unlink_r ($path)
 	/**
 	 * Deletes a file or directory that include some files
-	 * @access	public
-	 * @return	boolean
-	 * @param	string	Given path.
-	 * 					You can use Asterisk(*) or brace expand({a,b}) on path.
+	 *
+	 * The examples:
+	 * {@example pear_eFilesystem/test.php 60 3}
+	 *
+	 * @access public
+	 * @return boolean
+	 * @param string   Given path.
+	 *                 You can use Asterisk(*) or brace expand({a,b}) on path.
 	 */
 	function unlink_r ($path) {
 		if ( ! trim ($path) ) {
@@ -237,13 +251,17 @@ class eFilesystem {
 	// {{{ function dirlsit ($path, $fullpath = false)
 	/**
 	 * get dir list for given path
-	 * @access	public
-	 * @return	array|false
-	 * @param	string	given path
-	 * @param	integer (optional) Defaults to false.<br>
-	 * 					set false, return only file or directory name<br>
-	 * 					set eFilesystem::RELATIVE, return relative path<br>
-	 * 					set eFilesystem::ABSOLUTE, return absolute path<br>
+	 *
+	 * The examples:
+	 * {@example pear_eFilesystem/test.php 64 6}
+	 *
+	 * @access public
+	 * @return array|false
+	 * @param   string  given path
+	 * @param   integer (optional) Defaults to false.<br>
+	 *                  set false, return only file or directory name<br>
+	 *                  set eFilesystem::RELATIVE, return relative path<br>
+	 *                  set eFilesystem::ABSOLUTE, return absolute path<br>
 	 */
 	function dirlist ($path, $fullpath = false) {
 		if ( ! $path )
@@ -279,12 +297,16 @@ class eFilesystem {
 	// {{{ function tree ($dir = '.', $prefix = '', $recursive = false)
 	/**
 	 * get directory tree for given path
-	 * @access	public
-	 * @return	object	obj->file is number of files.<br>
-	 * 					obj->dir is number of directories.
-	 * @param	string	(optional) Given path. Defaults to current directory (./).
-	 * @param	string	(optional) for recursive call. Don't use!
-	 * @param	boolean	(optional) for recursive call. Don't use!
+	 *
+	 * The examples:
+	 * {@example pear_eFilesystem/test.php 31 17}
+	 *
+	 * @access public
+	 * @return object obj->file is number of files.<br>
+	 *                obj->dir is number of directories.
+	 * @param string  (optional) Given path. Defaults to current directory (./).
+	 * @param string  (optional) for recursive call. Don't use!
+	 * @param boolean (optional) for recursive call. Don't use!
 	 */
 	function tree ($dir = '.', $prefix = '', $recursive = false) {
 		$n->file = 0;
@@ -338,19 +360,23 @@ class eFilesystem {
 	// function find ($path = './', $type = '', $norecursive = false) {{{
 	/**
 	 * get file list that under given path
-	 * @access	public
-	 * @return	array|false	return array of file list. If given path is null or don't exist, return false.
-	 * @param	string	(optional) Given path. Defaults to current directory (./)
-	 * @param	string	(optional) list type. Defaults to all.<br>
-	 * 					f (get only files),<br>
-	 * 					d (get only directories),<br>
-	 * 					l (get only links),<br>
-	 * 					fd (get only files and directories),<br>
-	 * 					fl (get only files and links),<br>
-	 * 					dl (get only directories and links)<br>
-	 *					/regex/ (use regular expression)
-	 * @param	boolean (optional) Defaults to false.
-	 * 					set true, don't recursive search.
+	 *
+	 * The examples:
+	 * {@example pear_eFilesystem/test.php 71 4}
+	 *
+	 * @access public
+	 * @return array   return array of file list. If given path is null or don't exist, return false.
+	 * @param  string (optional) Given path. Defaults to current directory (./)
+	 * @param  string (optional) list type. Defaults to all.<br>
+	 *                f (get only files),<br>
+	 *                d (get only directories),<br>
+	 *                l (get only links),<br>
+	 *                fd (get only files and directories),<br>
+	 *                fl (get only files and links),<br>
+	 *                dl (get only directories and links)<br>
+	 *                /regex/ (use regular expression)
+	 * @param  boolean (optional) Defaults to false.
+	 *                set true, don't recursive search.
 	 */
 	function find ($path = './', $type= '', $norecursive = false) {
 		$path = preg_replace ('!/$!', '', $path);
@@ -414,10 +440,10 @@ class eFilesystem {
 	// function prompt ($prompt, $hidden = false) {{{
 	/**
 	 * print shell line prompt and get values
-	 * @access	public
-	 * @return	string
-	 * @param	string	print prompt string to stdout
-	 * @param	boolean (optional) hidden input strings
+	 * @access public
+	 * @return string
+	 * @param  string  print prompt string to stdout
+	 * @param  boolean (optional) hidden input strings
 	 */
 	function prompt ($prompt, $hidden = false) {
 		$prompt = ! $prompt ? '$ ' : $prompt;
@@ -455,9 +481,10 @@ class eFilesystem {
 	// {{{ (array) eFilesystem::parse_ini ($f)
 	/**
 	 * parse configuration file or string
-	 * @access	public
-	 * @return	array	The settings are returned as an associative array on success, and return empty array on failure.
-	 * @param	string	configuraion file or strings
+	 * @access public
+	 * @return array The settings are returned as an associative array on success,
+	 *               and return empty array on failure.
+	 * @param string configuraion file or strings
 	 */
 	function parse_ini ($f) {
 		if ( is_array ($f) || is_object ($f) ) {
@@ -536,9 +563,9 @@ class eFilesystem {
 	/**
 	 * Make configuration that collespond on parse_ini method
 	 *
-	 * @access	public
-	 * @return	string|false	make configuration strings
-	 * @param	array	configuraion array that has same foramt on result of parse_ini
+	 * @access public
+	 * @return string make configuration strings
+	 * @param  array  configuraion array that has same foramt on result of parse_ini
 	 */
 	function make_ini ($array) {
 		if ( ! is_array ($array) ) {
