@@ -1,15 +1,15 @@
 <?php
 /**
- * Project: eFilesystem:: Extended File System API
- * File:    eFilesystem.php
- * Depnedency: pear.oops.org/ePrint over 1.0.1
+ * Project: eFilesystem:: eFilesystem:: 파일 시스템 확장 API<br>
+ * File:    eFilesystem.php<br>
+ * Depnedency: pear.oops.org/ePrint 1.0.1 이후 버전
  *
- * The eFilesystem class is supported various extended system function
+ * eFilesystem 클리스는 여러가지 확장된 시스템 function을 제공한다.
  *
  * @category    System
  * @package     eFilesystem
  * @author      JoungKyun.Kim <http://oops.org>
- * @copyright   (c) 2009 OOPS.ORG
+ * @copyright   (c) 2012 OOPS.ORG
  * @license     BSD
  * @version     $Id$
  * @link        http://pear.oops.org/package/eFilesystem
@@ -19,12 +19,13 @@
  */
 
 /**
- * Dependency on 'pear.oops.org/ePrint' pear package over 1.0.1
+ * eFilesystem API는 pear.oops.org/ePrint pear package에 의존성이 있다.
+ * ePrint 패키지는 최소 1.0.1 버전을 필요로 한다.
  */
 require_once 'ePrint.php';
 
 /**
- * Base classes for Extended Filesystem API
+ * 파일 시스템 확장 API를위한 기본 Class
  * @package eFilesystem
  */
 class eFilesystem extends ePrint {
@@ -35,23 +36,26 @@ class eFilesystem extends ePrint {
 	static private $make_ini_callback_key = null;
 	// }}}
 
-	// {{{ function file_nr ($f, $use_include_path = false, $resource = null)
+	// {{{ (array) file_nr ($f, $use_include_path = false, $resource = null)
 	/**
-	 * Reads entire file into an array
+	 * 파일을 읽어서 각 라인을 배열로 만들어 반환
 	 *
-	 * file_nr api runs same file function of php. But file_nr has
-	 * no \r\n or \n character on array members.
+	 * file_nr mothod는 php의 file 함수와 동일하게 작동을 한다. 하지만
+	 * file_nr method는 file 함수와는 달리 각 행의 개행을 포함하지 않는다.
 	 *
-	 * The examples:
+	 * 예제:
 	 * {@example pear_eFilesystem/test.php 26 3}
 	 *
 	 * @access public
-	 * @return array    Array or false if not found file path nor file resource.
-	 * @param  string   file path
-	 * @param  boolean  (optional) Search file path on include_path of php.
-	 *                  Defaults is false.
-	 * @param  resource (optional) already opend file description resource
-	 *                  Defaults is null.
+	 * @return array|false 파일의 각 행을 배열로 반환. 파일이 존재하지 않거나
+	 *                     파일이 아니면 false를 반환한다.
+	 * @param  string      파일 경로
+	 * @param  boolean     (optional) true로 설정이 되면, php의 include_path
+	 *                     에서 파일을 찾는다. 기본값은 false.
+	 * @param  resource    (optional) file description resource가 지정이 되면,
+	 *                     첫번째 파일 경로 인자의 값을 무시하고, 이 file
+	 *                     description에서 파일의 내용을 읽는다. 기본값은 null
+	 *                     이다.
 	 */
 	function file_nr ($f, $use_include_path = false, $resource = null) {
 		$fp = is_resource ($resource) ? $res : fopen ($f, 'rb', $use_include_path);
@@ -76,23 +80,27 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ function mkdir_p ($path, $mode)
+	// {{{ (boolean) mkdir_p ($path, $mode)
 	/**
-	 * Attempts to create the directory specified by pathname.
+	 * 주어진 경로에 디렉토리를 생성한다.
 	 *
-	 * If does not parent directory, this API create success.
-	 * This means that same operate with mkdir (path, mode, true) of php
+	 * 부모 디렉토리가 존재하지 않더라도, 이 API는 디렉토리를 생성하는데
+	 * 실패 하지 않는다. 이 method는 php 의 mkdir (path, mode, true)와
+	 * 동일하게 동작 한다. 시스템상에서 'mkdir -p path'와 같이 실행하는
+	 * 것과 동일한 결과를 가진다.
 	 *
-	 * The examples:
+	 *
+	 * 예제:
 	 * {@example pear_eFilesystem/test.php 37 18}
 	 *
 	 * @access public
-	 * @return boolean return false, create error<br>
-	 *                 return true, create success.
-	 * @param string   given path
-	 * @param int      (optional) The mode is 0777 by default, which means the widest
-	 *                 possible access. For more information on modes, read
-	 *                 the details on the chmod() page.
+	 * @return boolean 생성에 실패하면 false를 반환하고, 성공하면 true를 
+	 *                 환한다.
+	 * @param string   생성할 경로
+	 * @param int      (optional) 기본값 0777. 이 의미는 누구나 접근 및
+	 *                 쓰기가 가능함을 의미한다. mode에 대한 더 많은 정보는
+	 *                 php의 {@link http://php.net/manual/en/function.chmod.php chmod()}
+	 *                 문서를 참고 한다.
 	 */
 	function mkdir_p ($path, $mode = 0777) {
 		$_path = realpath ($path);
@@ -108,16 +116,20 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ function safe_unlink ($f)
+	// {{{ (boolean|int) safe_unlink ($f)
 	/**
 	 * Deletes a file. If given file is directory, no error and return false.
+	 * 파일을 삭제 한다.
+	 *
+	 * 주어진 값이 존재하지 않거나 디렉토리일 경우에도 에러를 발생 시키지
+	 * 않는다.
 	 *
 	 * @access public
-	 * @return bolean|int return true, success<br>
-	 *                    return false, remove false<br>
-	 *                    return 2, file not found<br>
-	 *                    return 3, file is directory
-	 * @param string      given file path
+	 * @return bolean|int 성공시에 true를 반환<br>
+	 *                    삭제 실패시에 false를 반환<br>
+	 *                    삭제할 파일이 없을 경우 2를 반환<br>
+	 *                    삭제할 파일이 디렉토리일 경우 삭제하지 않고 3을 반환
+	 * @param string      삭제할 경로
 	 */
 	function safe_unlink ($f) {
 		if ( file_exists ($f) ) {
@@ -132,14 +144,16 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ function safe_unlink_msg ($r, $path = 'Given path')
+	// {{{ (string) safe_unlink_msg ($r, $path = 'Given path')
 	/**
-	 * return message of eFilesystem::safe_unlink method return code
+	 * safe_unlink method의 반환 값을 문자열로 반환
+	 *
+	 * 이 함수는 eFilesystem Class 내부적으로 사용하기 위한 API이다.
 	 *
 	 * @access private
 	 * @return string
-	 * @param  integer return code of safe_unlink method
-	 * @param  string  (optional) path
+	 * @param  integer safe_unlink method의 반환 값
+	 * @param  string  (optional) 경로
 	 */
 	private function safe_unlink_msg ($r, $path = 'Given path') {
 		if ( $r === true )
@@ -156,17 +170,20 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ function unlink_r ($path)
+	// {{{ (boolean) unlink_r ($path)
 	/**
-	 * Deletes a file or directory that include some files
+	 * 주어진 경로의 파일이나 디렉토리를 삭제
 	 *
-	 * The examples:
+	 * 주어진 경로의 파일이나 디렉토리를 삭제 합니다. 디렉토리 삭제시에, 해당
+	 * 디렉토리에 파일이나 하위 디렉토리가 포함하더라도 모두 삭제를 한다.
+	 *
+	 * 예제:
 	 * {@example pear_eFilesystem/test.php 56 3}
 	 *
 	 * @access public
 	 * @return boolean
-	 * @param string   Given path.
-	 *                 You can use Asterisk(*) or brace expand({a,b}) on path.
+	 * @param  string  삭제할 경로
+	 *                 경로에 아스트리크(*)나 쉘 확장({a,b})을 사용할 수 있다.
 	 */
 	function unlink_r ($path) {
 		if ( ! trim ($path) ) {
@@ -246,20 +263,20 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ function dirlsit ($path, $fullpath = false)
+	// {{{ (array) dirlsit ($path, $fullpath = false)
 	/**
-	 * get dir list for given path
+	 * 주어진 디렉토리 하위의 리스트를 배열로 반환
 	 *
-	 * The examples:
+	 * 예제:
 	 * {@example pear_eFilesystem/test.php 60 6}
 	 *
 	 * @access public
 	 * @return array|false
-	 * @param   string  given path
-	 * @param   integer (optional) Defaults to false.<br>
-	 *                  set false, return only file or directory name<br>
-	 *                  set eFilesystem::RELATIVE, return relative path<br>
-	 *                  set eFilesystem::ABSOLUTE, return absolute path<br>
+	 * @param  string  리스트를 얻을 디렉토리 경로
+	 * @param  integer (optional) 기본값 false.<br>
+	 *                 false일 경우, 파일 또는 디렉토리의 이름만 반환<br>
+	 *                 eFilesystem::RELATIVE일 경우, 상대 경로로 반환<br>
+	 *                 eFilesystem::ABSOLUTE일 경우, 절대 경로로 반환
 	 */
 	function dirlist ($path, $fullpath = false) {
 		if ( ! $path )
@@ -292,19 +309,23 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ function tree ($dir = '.', $prefix = '', $recursive = false)
+	// {{{ (object) tree ($dir = '.', $prefix = '', $recursive = false)
 	/**
-	 * print directory tree for given path
+	 * 지정한 경로의 디렉토리 tree를 출력
 	 *
-	 * The examples:
+	 * 시스템상의 tree 명령의 결과와 비슷하게 출력한다.
+	 *
+	 * 예제:
 	 * {@example pear_eFilesystem/test.php 37 18}
 	 *
 	 * @access public
-	 * @return object obj->file is number of files.<br>
-	 *                obj->dir is number of directories.
-	 * @param string  (optional) Given path. Defaults to current directory (./).
-	 * @param string  (optional) for recursive call. Don't use!
-	 * @param boolean (optional) for recursive call. Don't use!
+	 * @return object <b>obj->file</b> 파일 수<br>
+	 *                <b>obj->dir</b> 디렉토리 수
+	 * @param string  (optional) 주어진 경로. 기본값은 현재 디렉토리(./)
+	 * @param string  (optional) 재귀 호출을 위해 사용. 이 파라미터는 사용하지
+	 *                않는다.
+	 * @param boolean (optional) 재귀 호출을 위해 사용. 이 파라미터는 사용하지
+	 *                않는다.
 	 */
 	function tree ($dir = '.', $prefix = '', $recursive = false) {
 		$n->file = 0;
@@ -355,26 +376,31 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// function find ($path = './', $type = '', $norecursive = false) {{{
+	// (array) find ($path = './', $type = '', $norecursive = false) {{{
 	/**
-	 * get file list that under given path
+	 * 주어진 경로 하위의 디렉토리/파일 리스트를 배열로 반환
 	 *
-	 * The examples:
+	 * 주어진 경로 하위의 디렉토리/파일들을 조건에 맞게 탐색을 하여 결과를
+	 * 배열로 반환한다.
+	 *
+	 * 예제:
 	 * {@example pear_eFilesystem/test.php 67 4}
 	 *
 	 * @access public
-	 * @return array   return array of file list. If given path is null or don't exist, return false.
-	 * @param  string (optional) Given path. Defaults to current directory (./)
-	 * @param  string (optional) list type. Defaults to all.<br>
-	 *                f (get only files),<br>
-	 *                d (get only directories),<br>
-	 *                l (get only links),<br>
-	 *                fd (get only files and directories),<br>
-	 *                fl (get only files and links),<br>
-	 *                dl (get only directories and links)<br>
-	 *                /regex/ (use regular expression)
-	 * @param  boolean (optional) Defaults to false.
-	 *                set true, don't recursive search.
+	 * @return array|false 파일 리스트를 배열로 반환. 경로를 지정하지 않았거나,
+	 *                또는 주어진 경로가 존재하지 않으면 false를 반환
+	 * @param  string (optional) 탐색할 경로. 기본값은 현재 디렉토리(./)
+	 * @param  string (optional) 탐색 조건. 기본값은 모든 파일/디렉토리를
+	 *                탐색한다.<br>
+	 *                - f (파일만 탐색)
+	 *                - d (디렉토리만 탐색)
+	 *                - l (링크만 탐색)
+	 *                - fd (파일과 디렉토리만 탐색)
+	 *                - fl (파일과 링크만 탐색)
+	 *                - dl (디렉토리와 링크만 탐색)
+	 *                - /regex/ (파일/디렉토리 이름을 정규식으로 탐색)
+	 * @param  boolean (optional) 기본값 false. true로 설정하면, 재귀 검색을
+	 *                하지않고, 지정된 디렉토리의 리스트만 반환 한다.
 	 */
 	function find ($path = './', $type= '', $norecursive = false) {
 		$path = preg_replace ('!/$!', '', $path);
@@ -435,13 +461,14 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// function prompt ($prompt, $hidden = false) {{{
+	// (string) prompt ($prompt, $hidden = false) {{{
 	/**
-	 * print shell line prompt and get values
+	 * 쉘 라인 프롬프트를 출력하고 입력된 값을 반환한다.
+	 *
 	 * @access public
 	 * @return string
-	 * @param  string  print prompt string to stdout
-	 * @param  boolean (optional) hidden input strings
+	 * @param  string  stdout으로 출력할 프롬프트 문자열
+	 * @param  boolean (optional) input 문자열을 hidden 처리 한다.
 	 */
 	function prompt ($prompt, $hidden = false) {
 		$prompt = ! $prompt ? '$ ' : $prompt;
@@ -478,11 +505,12 @@ class eFilesystem extends ePrint {
 
 	// {{{ (array) eFilesystem::parse_ini ($f)
 	/**
-	 * parse configuration file or string
-	 * @access public
-	 * @return array The settings are returned as an associative array on success,
-	 *               and return empty array on failure.
-	 * @param string configuraion file or strings
+	 * 설정 파일 또는 설정 문자열을 분석
+	 *
+	 * @access  public
+	 * @return  array   성공시에, 분석된 설정 내용을 배열로 반환 한다. 실패시에
+	 *                  빈 배열을 반환한다.
+	 * @param   string  설정 파일 또는 설정 문자열
 	 */
 	function parse_ini ($f) {
 		if ( is_array ($f) || is_object ($f) ) {
@@ -557,13 +585,13 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (array) eFilesystem::make_ini ($array)
+	// {{{ (string) eFilesystem::make_ini ($array)
 	/**
-	 * Make configuration that collespond on parse_ini method
+	 * eFilesystem::parse_ini method에 대응되는 설정을 생성한다.
 	 *
 	 * @access public
-	 * @return string make configuration strings
-	 * @param  array  configuraion array that has same foramt on result of parse_ini
+	 * @return string 생성된 설정 문자열
+	 * @param  array  eFilesystem::parse_ini와 동일한 형식을 가진 설정 배열
 	 */
 	function make_ini ($array) {
 		if ( ! is_array ($array) ) {
