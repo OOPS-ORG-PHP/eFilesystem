@@ -101,6 +101,7 @@ class eFilesystem extends ePrint {
 	 *                 쓰기가 가능함을 의미한다. mode에 대한 더 많은 정보는
 	 *                 php의 {@link http://php.net/manual/en/function.chmod.php chmod()}
 	 *                 문서를 참고 한다.
+	 * @since 버전 1.0.2 부터 return 값이 boolean으로만 반환
 	 */
 	function mkdir_p ($path, $mode = 0777) {
 		$_path = realpath ($path);
@@ -511,6 +512,7 @@ class eFilesystem extends ePrint {
 	 * @return  array   성공시에, 분석된 설정 내용을 배열로 반환 한다. 실패시에
 	 *                  빈 배열을 반환한다.
 	 * @param   string  설정 파일 또는 설정 문자열
+	 * @since   버전 1.0.1
 	 */
 	function parse_ini ($f) {
 		if ( is_array ($f) || is_object ($f) ) {
@@ -592,6 +594,7 @@ class eFilesystem extends ePrint {
 	 * @access public
 	 * @return string 생성된 설정 문자열
 	 * @param  array  eFilesystem::parse_ini와 동일한 형식을 가진 설정 배열
+	 * @since  버전 1.0.2
 	 */
 	function make_ini ($array) {
 		if ( ! is_array ($array) ) {
