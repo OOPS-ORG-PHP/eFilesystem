@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id$
+# $Id: pack.sh,v 1.2 2009-08-06 17:50:04 oops Exp $
 
 #if [ "$1" = "doc" ]; then
 #	phpdoc -s on -p on -o HTML:Smarty:PHP -f eFilesystem.php -t docs -ti "eFilesystem pear package Reference"

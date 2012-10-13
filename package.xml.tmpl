@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package version="2.0" packagerversion="1.7.2" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
-	<!-- $Id$ -->
+	<!-- $Id: package.xml.tmpl,v 1.1.1.1 2009-07-12 20:39:14 oops Exp $ -->
 	<name>eFilesystem</name>
 	<channel>pear.oops.org</channel>
 	<summary>Extends Print API</summary>
@@ -14,17 +14,16 @@
 	<date>@curdate@</date>
 	<time>@curtime@</time>
 	<version>
-		<release>1.0.2</release>
+		<release>1.0.0</release>
 		<api>1.0.0</api>
 	</version>
 	<stability>
-		<release>devel</release>
+		<release>stable</release>
 		<api>stable</api>
 	</stability>
 	<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-	<notes>* add make_ini method
-* call ePrint class with php extends
-* now mkdir_p retuns only boolean
+	<notes>* release 1.0.0
+* forked pear_eSystem::filesystem
 </notes>
 	<contents>
 		<dir name="/">
@@ -50,36 +49,6 @@
 	<changelog>
 		<release>
 			<version>
-				<release>1.0.2</release>
-				<api>1.0.0</api>
-			</version>
-			<stability>
-				<release>devel</release>
-				<api>stable</api>
-			</stability>
-			<date>@curdate@</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-			<notes>* add make_ini method
-* call ePrint class with php extends
-* now mkdir_p retuns only boolean
-</notes>
-		</release>
-		<release>
-			<version>
-				<release>1.0.1</release>
-				<api>1.0.0</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2010-11-15</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-			<notes>* add parse_ini method
-</notes>
-		</release>
-		<release>
-			<version>
 				<release>1.0.0</release>
 				<api>1.0.0</api>
 			</version>
@@ -87,7 +56,7 @@
 				<release>stable</release>
 				<api>stable</api>
 			</stability>
-			<date>2009-08-07</date>
+			<date>@curdate@</date>
 			<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
 			<notes>* release 1.0.0
 * forked pear_eSystem::filesystem

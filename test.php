@@ -1,17 +1,21 @@
 <?php
 /**
- * Extended File system API
+ * Extended Print API
  *
- * eFilesyste class
+ * ePrint class
  *
- * @category  System
- * @package   eFilesystem
- * @author    JoungKyun.Kim <http://oops.org>
- * @copyright (c) 2009 OOPS.ORG
- * @license   BSD
- * @version   $Id$
- * @link      http://pear.oops.org/package/ePrint
- * @since     File available since relase 0.0.1
+ * PHP version 5
+ *
+ * LICENSE: BSD license
+ *
+ * @category	System
+ * @package		eFilesystem
+ * @author		JoungKyun.Kim <http://oops.org>
+ * @copyright	1997-2009 OOPS.ORG
+ * @license		BSD License
+ * @version		CVS: $Id: test.php,v 1.1.1.1 2009-07-12 20:39:14 oops Exp $
+ * @link		http://pear.oops.org/package/ePrint
+ * @since		File available since relase 0.0.1
  */
 
 require_once 'eFilesystem.php';
