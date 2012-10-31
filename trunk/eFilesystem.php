@@ -57,7 +57,7 @@ class eFilesystem extends ePrint {
 	 *                     description에서 파일의 내용을 읽는다. 기본값은 null
 	 *                     이다.
 	 */
-	function file_nr ($f, $use_include_path = false, $resource = null) {
+	static function file_nr ($f, $use_include_path = false, $resource = null) {
 		$fp = is_resource ($resource) ? $res : fopen ($f, 'rb', $use_include_path);
 
 		if ( ! is_resource ($fp) )
@@ -103,7 +103,7 @@ class eFilesystem extends ePrint {
 	 *                 문서를 참고 한다.
 	 * @since 버전 1.0.2 부터 return 값이 boolean으로만 반환
 	 */
-	function mkdir_p ($path, $mode = 0777) {
+	static function mkdir_p ($path, $mode = 0777) {
 		$_path = realpath ($path);
 
 		if ( file_exists ($path) ) {
@@ -132,7 +132,7 @@ class eFilesystem extends ePrint {
 	 *                    삭제할 파일이 디렉토리일 경우 삭제하지 않고 3을 반환
 	 * @param string      삭제할 경로
 	 */
-	function safe_unlink ($f) {
+	static function safe_unlink ($f) {
 		if ( file_exists ($f) ) {
 			if ( is_dir ($f) )
 				return 3;
@@ -145,7 +145,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (string) safe_unlink_msg ($r, $path = 'Given path')
+	// {{{ private (string) safe_unlink_msg ($r, $path = 'Given path')
 	/**
 	 * safe_unlink method의 반환 값을 문자열로 반환
 	 *
@@ -186,9 +186,9 @@ class eFilesystem extends ePrint {
 	 * @param  string  삭제할 경로
 	 *                 경로에 아스트리크(*)나 쉘 확장({a,b})을 사용할 수 있다.
 	 */
-	function unlink_r ($path) {
+	static function unlink_r ($path) {
 		if ( ! trim ($path) ) {
-			self::warning ('PATH is null string for eFilesystem::unlink_r()');
+			parent::warning ('PATH is null string for eFilesystem::unlink_r()');
 			return false;
 		}
 
@@ -198,7 +198,7 @@ class eFilesystem extends ePrint {
 		if ( preg_match ('/([*])|({[^,]+,)/', $path) ) {
 			$l = glob ($path, GLOB_BRACE);
 			if ( $l === false || empty ($l) ) {
-				self::warning ("11 {$path} not found for eFilesystem::unlink_r()");
+				parent::warning ("11 {$path} not found for eFilesystem::unlink_r()");
 				return false;
 			}
 
@@ -208,7 +208,7 @@ class eFilesystem extends ePrint {
 				else {
 					self::safe_unlink ($v);
 					if ( $r !== true ) {
-						self::warning (self::safe_unlink_msg ($r, $path));
+						parent::warning (self::safe_unlink_msg ($r, $path));
 						return false;
 					}
 				}
@@ -218,7 +218,7 @@ class eFilesystem extends ePrint {
 		}
 
 		if ( ! file_exists ($path) ) {
-			self::warning ("{$path} not found for eFilesystem::unlink_r()");
+			parent::warning ("{$path} not found for eFilesystem::unlink_r()");
 			return false;
 		}
 
@@ -228,7 +228,7 @@ class eFilesystem extends ePrint {
 		if ( ! is_dir ($path) ) {
 			$r = self::safe_unlink ($path);
 			if ( $r !== true ) {
-				self::warning (self::safe_unlink_msg ($r, $path));
+				parent::warning (self::safe_unlink_msg ($r, $path));
 				return false;
 			}
 			return $r;
@@ -250,7 +250,7 @@ class eFilesystem extends ePrint {
 			else {
 				$r = self::safe_unlink ($fullpath);
 				if ( $r !== true )
-					self::warning (self::safe_unlink_msg ($r, $fullpath));
+					parent::warning (self::safe_unlink_msg ($r, $fullpath));
 			}
 
 			if ( $r !== true ) {
@@ -279,7 +279,7 @@ class eFilesystem extends ePrint {
 	 *                 eFilesystem::RELATIVE일 경우, 상대 경로로 반환<br>
 	 *                 eFilesystem::ABSOLUTE일 경우, 절대 경로로 반환
 	 */
-	function dirlist ($path, $fullpath = false) {
+	static function dirlist ($path, $fullpath = false) {
 		if ( ! $path )
 			return false;
 
@@ -328,7 +328,7 @@ class eFilesystem extends ePrint {
 	 * @param boolean (optional) 재귀 호출을 위해 사용. 이 파라미터는 사용하지
 	 *                않는다.
 	 */
-	function tree ($dir = '.', $prefix = '', $recursive = false) {
+	static function tree ($dir = '.', $prefix = '', $recursive = false) {
 		$n = new stdClass;
 		$n->file = 0;
 		$n->dir  = 0;
@@ -338,7 +338,7 @@ class eFilesystem extends ePrint {
 
 		if ( $recursive === false ) {
 			if ( php_sapi_name () == 'cli' )
-				self::aPrintf ("blue", "%s/\n", $dir);
+				parent::aPrintf ("blue", "%s/\n", $dir);
 			else
 				echo "$dir/\n";
 		}
@@ -356,7 +356,7 @@ class eFilesystem extends ePrint {
 			$_prefix = $last ? '`-- ' : '|-- ';
 
 			if ( php_sapi_name () == 'cli' && is_dir ($fullpath) )
-				$fname = self::asPrintf ('blue', "%s/", $list[$i]);
+				$fname = parent::asPrintf ('blue', "%s/", $list[$i]);
 			else {
 				$fname = $list[$i];
 				if ( is_dir ($fullpath) )
@@ -404,7 +404,7 @@ class eFilesystem extends ePrint {
 	 * @param  boolean (optional) 기본값 false. true로 설정하면, 재귀 검색을
 	 *                하지않고, 지정된 디렉토리의 리스트만 반환 한다.
 	 */
-	function find ($path = './', $type= '', $norecursive = false) {
+	static function find ($path = './', $type= '', $norecursive = false) {
 		$path = preg_replace ('!/$!', '', $path);
 
 		$_r = self::dirlist ($path, self::RELATIVE);
@@ -472,7 +472,7 @@ class eFilesystem extends ePrint {
 	 * @param  string  stdout으로 출력할 프롬프트 문자열
 	 * @param  boolean (optional) input 문자열을 hidden 처리 한다.
 	 */
-	function prompt ($prompt, $hidden = false) {
+	static function prompt ($prompt, $hidden = false) {
 		$prompt = ! $prompt ? '$ ' : $prompt;
 
 		if ( $hidden === false && function_exists ('readline') )
@@ -515,9 +515,9 @@ class eFilesystem extends ePrint {
 	 * @param   string  설정 파일 또는 설정 문자열
 	 * @since   버전 1.0.1
 	 */
-	function parse_ini ($f) {
+	static function parse_ini ($f) {
 		if ( is_array ($f) || is_object ($f) ) {
-			self::warning ('Invalid type of argument 1. File or string is valid');
+			parent::warning ('Invalid type of argument 1. File or string is valid');
 			return array ();
 		}
 
@@ -597,9 +597,9 @@ class eFilesystem extends ePrint {
 	 * @param  array  eFilesystem::parse_ini와 동일한 형식을 가진 설정 배열
 	 * @since  버전 1.0.2
 	 */
-	function make_ini ($array) {
+	static function make_ini ($array) {
 		if ( ! is_array ($array) ) {
-			self::warning ('Invalid type of argument 1. Array is valid');
+			parent::warning ('Invalid type of argument 1. Array is valid');
 			return false;
 		}
 
@@ -608,7 +608,7 @@ class eFilesystem extends ePrint {
 			$r = "[{$key}]\n";
 
 			if ( ! is_array ($v) ) {
-				self::warning ('Invalid array data format');
+				parent::warning ('Invalid array data format');
 				return false;
 			}
 

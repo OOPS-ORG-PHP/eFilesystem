@@ -78,14 +78,14 @@ $r = $fs->file_nr ('eFilesystem.php');
 answer (is_array ($r) ? true : false);
 /*
 if ( is_array ($r) ) {
-	ePrint::echoi ($r, 4);
+	$fs->echoi ($r, 4);
 	echo "\n";
 }
  */
 unset ($r);
 
 echo '2. check mkdir_p ... ';
-#echo ePrint::whiteSpace (4, true) . "indent 4\n";
+#echo $fs->whiteSpace (4, true) . "indent 4\n";
 $r = $fs->mkdir_p ('./aaa/bbb');
 answer ($r);
 if ( $r === true ) {
@@ -100,7 +100,7 @@ if ( $r === true ) {
 	$fs->tree ('./aaa');
 	$capture = ob_get_contents ();
 	ob_end_clean ();
-	ePrint::echoi ($capture, 4);
+	$fs->echoi ($capture, 4);
 }
 
 echo '3. check unlink_r ... ';
@@ -111,11 +111,11 @@ echo "4. check dirlist ...\n";
 $r = $fs->dirlist ('./');
 $r = array_merge ($r, $fs->dirlist ('./', eFilesystem::RELATIVE));
 $r = array_merge ($r, $fs->dirlist ('./', eFilesystem::ABSOLUTE));
-ePrint::echoi ($r, 4);
+$fs->echoi ($r, 4);
 echo "\n";
 
 echo "5. check find ... \n";
 $r = $fs->find ('./');
-ePrint::echoi ($r, 4);
+$fs->echoi ($r, 4);
 echo "\n";
 ?>
