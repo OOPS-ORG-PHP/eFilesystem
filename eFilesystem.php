@@ -329,6 +329,7 @@ class eFilesystem extends ePrint {
 	 *                않는다.
 	 */
 	function tree ($dir = '.', $prefix = '', $recursive = false) {
+		$n = new stdClass;
 		$n->file = 0;
 		$n->dir  = 0;
 
