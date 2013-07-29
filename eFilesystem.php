@@ -320,8 +320,13 @@ class eFilesystem extends ePrint {
 	 * {@example pear_eFilesystem/test.php 37 18}
 	 *
 	 * @access public
-	 * @return object <b>obj->file</b> 파일 수<br>
-	 *                <b>obj->dir</b> 디렉토리 수
+	 * @return stdClass 파일과 디렉토리 수를 반환
+	 *   <pre>
+	 *   stdClass Object
+	 *   (
+	 *       [file] => 파일 수
+	 *       [dir]  => 디렉토리 수
+	 *   )
 	 * @param string  (optional) 주어진 경로. 기본값은 현재 디렉토리(./)
 	 * @param string  (optional) 재귀 호출을 위해 사용. 이 파라미터는 사용하지
 	 *                않는다.
