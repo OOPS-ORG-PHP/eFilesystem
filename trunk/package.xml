@@ -11,8 +11,8 @@
 		<email>joungkyun@gmail.com</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-11-01</date>
-	<time>01:32:22</time>
+	<date>2013-08-01</date>
+	<time>02:14:32</time>
 	<version>
 		<release>1.0.3</release>
 		<api>1.0.0</api>
@@ -22,11 +22,14 @@
 		<api>stable</api>
 	</stability>
 	<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-	<notes>* fixed creating default object from empty value
+	<notes>* PHP 5.4 대응
+  - stdClass로 선언되지 않은 빈 변수를 object로 사용하는 문제 해결
+  - E_STRICT 문제 해결
+* parse_ini method를 stdClass로 반환하도록 2번째 optional parameter 추가
 </notes>
 	<contents>
 		<dir name="/">
-			<file role="php" md5sum="c983ffc5466b7f83df151dff0396a216" name="eFilesystem.php" />
+			<file role="php" md5sum="bf3d7bbdb87da37271d400078c18ae95" name="eFilesystem.php" />
 		</dir>
 	</contents>
 	<dependencies>
@@ -55,9 +58,12 @@
 				<release>stable</release>
 				<api>stable</api>
 			</stability>
-			<date>2012-11-01</date>
+			<date>2013-08-01</date>
 			<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-			<notes>* fixed creating default object from empty value
+			<notes>* PHP 5.4 대응
+  - stdClass로 선언되지 않은 빈 변수를 object로 사용하는 문제 해결
+  - E_STRICT 문제 해결
+* parse_ini method를 stdClass로 반환하도록 2번째 optional parameter 추가
 </notes>
 		</release>
 		<release>

@@ -383,7 +383,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// (array) find ($path = './', $type = '', $norecursive = false) {{{
+	// {{{ (array) find ($path = './', $type = '', $norecursive = false)
 	/**
 	 * 주어진 경로 하위의 디렉토리/파일 리스트를 배열로 반환
 	 *
@@ -468,7 +468,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// (string) prompt ($prompt, $hidden = false) {{{
+	// {{{ (string) prompt ($prompt, $hidden = false)
 	/**
 	 * 쉘 라인 프롬프트를 출력하고 입력된 값을 반환한다.
 	 *
@@ -518,13 +518,18 @@ class eFilesystem extends ePrint {
 	 * @return  array   성공시에, 분석된 설정 내용을 배열로 반환 한다. 실패시에
 	 *                  빈 배열을 반환한다.
 	 * @param   string  설정 파일 또는 설정 문자열
+	 * @param   bool    (optional) true로 선언시에, member들을 stdClass로
+	 *                  반환한다. (1.0.3부터 지원)
 	 * @since   버전 1.0.1
 	 */
-	static function parse_ini ($f) {
+	static function parse_ini ($f, $obj = false) {
 		if ( is_array ($f) || is_object ($f) ) {
 			parent::warning ('Invalid type of argument 1. File or string is valid');
 			return array ();
 		}
+
+		if ( $obj )
+			return self::parse_ini_obj ($f);
 
 		$contents = file_exists ($f) ? self::file_nr ($f) : preg_split ('/[\r\n]+/', $f);
 		if ( $contents === false || ! is_array ($contents) )
@@ -557,10 +562,10 @@ class eFilesystem extends ePrint {
 							case 'true' :
 							case 'on' :
 							case '1' :
-								$var .= ' = true;';
+								$var .= ' = 1;';
 								break;
 							default :
-								$var .= ' = false;';
+								$var .= ' = 0;';
 						}
 					} else
 						$var .= ' = \'' . $_value . "';";
@@ -576,10 +581,10 @@ class eFilesystem extends ePrint {
 							case 'true' :
 							case 'on' :
 							case '1' :
-								$var .= ' = true;';
+								$var .= ' = 1;';
 								break;
 							default :
-								$var .= ' = false;';
+								$var .= ' = 0;';
 						}
 					} else
 						$var .= ' = \'' . $_value . "';";
@@ -593,32 +598,120 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
+	// {{{ private (array) eFilesystem::parse_ini_obj ($f)
+	/**
+	 * 설정 파일 또는 설정 문자열을 분석
+	 *
+	 * @access  public
+	 * @return  stdClass 성공시에, 분석된 설정 내용을 stdClass로 반환 한다. 실패시에
+	 *                   빈 stdClass를 반환한다.
+	 * @param   string   설정 파일 또는 설정 문자열
+	 * @since   버전 1.0.3
+	 */
+	private static function parse_ini_obj (&$f) {
+		if ( is_array ($f) || is_object ($f) ) {
+			parent::warning ('Invalid type of argument 1. File or string is valid');
+			return array ();
+		}
+
+		$contents = file_exists ($f) ? self::file_nr ($f) : preg_split ('/[\r\n]+/', $f);
+		if ( $contents === false || ! is_array ($contents) )
+			return array ();
+
+		$ret = new stdClass;
+
+		foreach ( $contents as $r ) {
+			$r = preg_replace ('/[ \t]*;.*/', '', $r);
+
+			if ( ! $r )
+				continue;
+
+			if ( preg_match ('/^\[([^\]]+)\]$/', $r, $matches) ) {
+				/* new variable */
+				$varname = $matches[1];
+				eval ('$ret->' . $varname . ' = new stdClass;');
+				#echo '$ret->' . $varname . ' = new stdClass;' . PHP_EOL;
+			} else {
+				/**
+				 * invalid format
+				 * must variable = value format
+				 */
+				if ( ! preg_match ('/^([^=]+)=(.*)$/', $r, $matches) )
+					continue;
+
+				$_varname = trim ($matches[1]);
+				$_value   = trim ($matches[2]);
+
+				$var = '$ret->' . $varname;
+				if ( $_varname == 'value' ) {
+					if ( preg_match ('/^(true|false|on|off|[01])$/', $_value, $matches) ) {
+						switch ($matches[1]) {
+							case 'true' :
+							case 'on' :
+							case '1' :
+								$var .= ' = 1;';
+								break;
+							default :
+								$var .= ' = 0;';
+						}
+					} else
+						$var .= ' = \'' . $_value . "';";
+				} else {
+					$_varname_r = explode ('.', $_varname);
+					for ( $i=0; $i<count ($_varname_r); $i++ ) {
+						$var_brace_start = is_numeric ($_varname_r[$i]) ? '{' : '';
+						$var_brace_end   = is_numeric ($_varname_r[$i]) ? '}' : '';
+						$var .= '->' . $var_brace_start . $_varname_r[$i] . $var_brace_end;
+					}
+
+					if ( preg_match ('/^(true|false|on|off|[01])$/', $_value, $matches) ) {
+						switch ($matches[1]) {
+							case 'true' :
+							case 'on' :
+							case '1' :
+								$var .= ' = 1;';
+								break;
+							default :
+								$var .= ' = 0;';
+						}
+					} else
+						$var .= ' = \'' . $_value . "';";
+				}
+				#echo $var . "\n";
+				eval ($var);
+			}
+		}
+
+		return $ret;
+	}
+	// }}}
+
 	// {{{ (string) eFilesystem::make_ini ($array)
 	/**
 	 * eFilesystem::parse_ini method에 대응되는 설정을 생성한다.
 	 *
 	 * @access public
 	 * @return string 생성된 설정 문자열
-	 * @param  array  eFilesystem::parse_ini와 동일한 형식을 가진 설정 배열
+	 * @param  array|stdClass  eFilesystem::parse_ini와 동일한 형식을 가진 설정 배열
 	 * @since  버전 1.0.2
 	 */
-	static function make_ini ($array) {
-		if ( ! is_array ($array) ) {
+	static function make_ini ($input) {
+		if ( ! is_array ($input) && ! is_object ($input) ) {
 			parent::warning ('Invalid type of argument 1. Array is valid');
 			return false;
 		}
 
 		$buf = '';
-		foreach ( $array as $key => $v ) {
+		foreach ( $input as $key => $v ) {
 			$r = "[{$key}]\n";
 
-			if ( ! is_array ($v) ) {
+			if ( ! is_array ($v) && ! is_object ($v) ) {
 				parent::warning ('Invalid array data format');
 				return false;
 			}
 
 			self::make_ini_callback ($r, $v);
-			$buf .= preg_replace ('/\. = /', ' = ', $r) . "\n";
+			$buf .= preg_replace ('/\.([\s]*)=[\s]* /', '\\1= ', $r) . "\n";
 			#$buf .= $r . "\n";
 		}
 
@@ -628,14 +721,16 @@ class eFilesystem extends ePrint {
 
 	// {{{ (void) eFilesystem::make_ini_callback (&$buf, $v)
 	private function make_ini_callback (&$buf, $v) {
-		if ( ! is_array ($v) ) {
+		if ( ! is_array ($v) && ! is_object ($v) ) {
 			$buf .= sprintf (" = %s\n", $v);
 			return;
 		}
 
 		foreach ( $v as $key => $val ) {
-			if ( ! is_array ($val) )
-				$buf .= sprintf ('%s%s.', self::$make_ini_callback_key, $key);
+			if ( ! is_array ($val) && ! is_object ($val) ) {
+				$keyname = sprintf ('%s%s.', self::$make_ini_callback_key, $key);
+				$buf .= sprintf ('  %-20s', $keyname);
+			}
 
 			self::$make_ini_callback_key .= $key . '.';
 			self::make_ini_callback ($buf, $val);
