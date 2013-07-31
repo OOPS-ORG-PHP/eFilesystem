@@ -36,7 +36,7 @@ class eFilesystem extends ePrint {
 	static private $make_ini_callback_key = null;
 	// }}}
 
-	// {{{ (array) file_nr ($f, $use_include_path = false, $resource = null)
+	// {{{ static public (array) file_nr ($f, $use_include_path = false, $resource = null)
 	/**
 	 * 파일을 읽어서 각 라인을 배열로 만들어 반환
 	 *
@@ -57,7 +57,7 @@ class eFilesystem extends ePrint {
 	 *                     description에서 파일의 내용을 읽는다. 기본값은 null
 	 *                     이다.
 	 */
-	static function file_nr ($f, $use_include_path = false, $resource = null) {
+	static public function file_nr ($f, $use_include_path = false, $resource = null) {
 		$fp = is_resource ($resource) ? $res : fopen ($f, 'rb', $use_include_path);
 
 		if ( ! is_resource ($fp) )
@@ -80,7 +80,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (boolean) mkdir_p ($path, $mode)
+	// {{{ static public (bool) mkdir_p ($path, $mode)
 	/**
 	 * 주어진 경로에 디렉토리를 생성한다.
 	 *
@@ -103,7 +103,7 @@ class eFilesystem extends ePrint {
 	 *                 문서를 참고 한다.
 	 * @since 버전 1.0.2 부터 return 값이 boolean으로만 반환
 	 */
-	static function mkdir_p ($path, $mode = 0777) {
+	static public function mkdir_p ($path, $mode = 0777) {
 		$_path = realpath ($path);
 
 		if ( file_exists ($path) ) {
@@ -117,7 +117,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (boolean|int) safe_unlink ($f)
+	// {{{ static public (bool|int) safe_unlink ($f)
 	/**
 	 * Deletes a file. If given file is directory, no error and return false.
 	 * 파일을 삭제 한다.
@@ -132,7 +132,7 @@ class eFilesystem extends ePrint {
 	 *                    삭제할 파일이 디렉토리일 경우 삭제하지 않고 3을 반환
 	 * @param string      삭제할 경로
 	 */
-	static function safe_unlink ($f) {
+	static public function safe_unlink ($f) {
 		if ( file_exists ($f) ) {
 			if ( is_dir ($f) )
 				return 3;
@@ -171,7 +171,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (boolean) unlink_r ($path)
+	// {{{ static public (bool) unlink_r ($path)
 	/**
 	 * 주어진 경로의 파일이나 디렉토리를 삭제
 	 *
@@ -186,15 +186,13 @@ class eFilesystem extends ePrint {
 	 * @param  string  삭제할 경로
 	 *                 경로에 아스트리크(*)나 쉘 확장({a,b})을 사용할 수 있다.
 	 */
-	static function unlink_r ($path) {
+	static public function unlink_r ($path) {
 		if ( ! trim ($path) ) {
 			parent::warning ('PATH is null string for eFilesystem::unlink_r()');
 			return false;
 		}
 
-		/*
-		 * support glob and brace expend
-		 */
+		// support glob and brace expend
 		if ( preg_match ('/([*])|({[^,]+,)/', $path) ) {
 			$l = glob ($path, GLOB_BRACE);
 			if ( $l === false || empty ($l) ) {
@@ -222,9 +220,7 @@ class eFilesystem extends ePrint {
 			return false;
 		}
 
-		/*
-		 * path is not directory, remove here.
-		 */
+		// path is not directory, remove here.
 		if ( ! is_dir ($path) ) {
 			$r = self::safe_unlink ($path);
 			if ( $r !== true ) {
@@ -234,7 +230,7 @@ class eFilesystem extends ePrint {
 			return $r;
 		}
 
-		/* path is directory... */
+		// path is directory...
 		$dh = @opendir ($path);
 		if ( ! is_resource ($dh) )
 			return false;
@@ -264,7 +260,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (array) dirlsit ($path, $fullpath = false)
+	// {{{ static public (array) dirlsit ($path, $fullpath = false)
 	/**
 	 * 주어진 디렉토리 하위의 리스트를 배열로 반환
 	 *
@@ -279,7 +275,7 @@ class eFilesystem extends ePrint {
 	 *                 eFilesystem::RELATIVE일 경우, 상대 경로로 반환<br>
 	 *                 eFilesystem::ABSOLUTE일 경우, 절대 경로로 반환
 	 */
-	static function dirlist ($path, $fullpath = false) {
+	static public function dirlist ($path, $fullpath = false) {
 		if ( ! $path )
 			return false;
 
@@ -310,7 +306,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (object) tree ($dir = '.', $prefix = '', $recursive = false)
+	// {{{ static public (object) tree ($dir = '.', $prefix = '', $recursive = false)
 	/**
 	 * 지정한 경로의 디렉토리 tree를 출력
 	 *
@@ -333,7 +329,7 @@ class eFilesystem extends ePrint {
 	 * @param boolean (optional) 재귀 호출을 위해 사용. 이 파라미터는 사용하지
 	 *                않는다.
 	 */
-	static function tree ($dir = '.', $prefix = '', $recursive = false) {
+	static public function tree ($dir = '.', $prefix = '', $recursive = false) {
 		$n = new stdClass;
 		$n->file = 0;
 		$n->dir  = 0;
@@ -383,7 +379,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (array) find ($path = './', $type = '', $norecursive = false)
+	// {{{ static public (array) find ($path = './', $type = '', $norecursive = false)
 	/**
 	 * 주어진 경로 하위의 디렉토리/파일 리스트를 배열로 반환
 	 *
@@ -409,7 +405,7 @@ class eFilesystem extends ePrint {
 	 * @param  boolean (optional) 기본값 false. true로 설정하면, 재귀 검색을
 	 *                하지않고, 지정된 디렉토리의 리스트만 반환 한다.
 	 */
-	static function find ($path = './', $type= '', $norecursive = false) {
+	static public function find ($path = './', $type= '', $norecursive = false) {
 		$path = preg_replace ('!/$!', '', $path);
 
 		$_r = self::dirlist ($path, self::RELATIVE);
@@ -468,7 +464,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (string) prompt ($prompt, $hidden = false)
+	// {{{ static public (string) prompt ($prompt, $hidden = false)
 	/**
 	 * 쉘 라인 프롬프트를 출력하고 입력된 값을 반환한다.
 	 *
@@ -477,7 +473,7 @@ class eFilesystem extends ePrint {
 	 * @param  string  stdout으로 출력할 프롬프트 문자열
 	 * @param  boolean (optional) input 문자열을 hidden 처리 한다.
 	 */
-	static function prompt ($prompt, $hidden = false) {
+	static public function prompt ($prompt, $hidden = false) {
 		$prompt = ! $prompt ? '$ ' : $prompt;
 
 		if ( $hidden === false && function_exists ('readline') )
@@ -510,19 +506,19 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (array) eFilesystem::parse_ini ($f)
+	// {{{ static public (array|stdClass) eFilesystem::parse_ini ($f)
 	/**
 	 * 설정 파일 또는 설정 문자열을 분석
 	 *
 	 * @access  public
-	 * @return  array   성공시에, 분석된 설정 내용을 배열로 반환 한다. 실패시에
-	 *                  빈 배열을 반환한다.
+	 * @return  array|stdClass 성공시에, 분석된 설정 내용을 배열로 반환 한다.
+	 *                  실패시에 빈 배열을 반환한다.
 	 * @param   string  설정 파일 또는 설정 문자열
 	 * @param   bool    (optional) true로 선언시에, member들을 stdClass로
 	 *                  반환한다. (1.0.3부터 지원)
 	 * @since   버전 1.0.1
 	 */
-	static function parse_ini ($f, $obj = false) {
+	static public function parse_ini ($f, $obj = false) {
 		if ( is_array ($f) || is_object ($f) ) {
 			parent::warning ('Invalid type of argument 1. File or string is valid');
 			return array ();
@@ -598,7 +594,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ private (array) eFilesystem::parse_ini_obj ($f)
+	// {{{ private (stdClass) eFilesystem::parse_ini_obj ($f)
 	/**
 	 * 설정 파일 또는 설정 문자열을 분석
 	 *
@@ -686,7 +682,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (string) eFilesystem::make_ini ($array)
+	// {{{ static public (string) eFilesystem::make_ini ($array)
 	/**
 	 * eFilesystem::parse_ini method에 대응되는 설정을 생성한다.
 	 *
@@ -695,7 +691,7 @@ class eFilesystem extends ePrint {
 	 * @param  array|stdClass  eFilesystem::parse_ini와 동일한 형식을 가진 설정 배열
 	 * @since  버전 1.0.2
 	 */
-	static function make_ini ($input) {
+	static public function make_ini ($input) {
 		if ( ! is_array ($input) && ! is_object ($input) ) {
 			parent::warning ('Invalid type of argument 1. Array is valid');
 			return false;
@@ -719,7 +715,7 @@ class eFilesystem extends ePrint {
 	}
 	// }}}
 
-	// {{{ (void) eFilesystem::make_ini_callback (&$buf, $v)
+	// {{{ private (void) eFilesystem::make_ini_callback (&$buf, $v)
 	private function make_ini_callback (&$buf, $v) {
 		if ( ! is_array ($v) && ! is_object ($v) ) {
 			$buf .= sprintf (" = %s\n", $v);
