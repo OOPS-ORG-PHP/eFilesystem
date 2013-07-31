@@ -23,99 +23,108 @@ function answer ($v) {
 
 echo "##### SELF test #############################################\n";
 
-echo '1. check file_nr ... ';
-$r = eFilesystem::file_nr ('eFilesystem.php');
-answer (is_array ($r) ? true : false);
-/*
-if ( is_array ($r) ) {
+try {
+	echo '1. check file_nr ... ';
+	$r = eFilesystem::file_nr ('eFilesystem.php');
+	answer (is_array ($r) ? true : false);
+	/*
+	if ( is_array ($r) ) {
+		ePrint::echoi ($r, 4);
+		echo "\n";
+	}
+	 */
+	unset ($r);
+
+	echo '2. check mkdir_p ... ';
+	#echo ePrint::whiteSpace (4, true) . "indent 4\n";
+	$r = eFilesystem::mkdir_p ('./aaa/bbb');
+	answer ($r);
+	if ( $r === true ) {
+		chdir ('./aaa/bbb');
+		touch ('11.txt');
+		touch ('1.txt');
+		touch ('2.txt');
+		chdir ('../../');
+
+		echo "   check tree ... \n";
+		ob_start ();
+		eFilesystem::tree ('./aaa');
+		$capture = ob_get_contents ();
+		ob_end_clean ();
+		ePrint::echoi ($capture, 4);
+	}
+
+	echo '3. check unlink_r ... ';
+	$r = eFilesystem::unlink_r ('./aaa');
+	answer ($r);
+
+	echo "4. check dirlist ...\n";
+	$r = eFilesystem::dirlist ('./');
+	$r = array_merge ($r, eFilesystem::dirlist ('./', eFilesystem::RELATIVE));
+	$r = array_merge ($r, eFilesystem::dirlist ('./', eFilesystem::ABSOLUTE));
 	ePrint::echoi ($r, 4);
 	echo "\n";
-}
- */
-unset ($r);
 
-echo '2. check mkdir_p ... ';
-#echo ePrint::whiteSpace (4, true) . "indent 4\n";
-$r = eFilesystem::mkdir_p ('./aaa/bbb');
-answer ($r);
-if ( $r === true ) {
-	chdir ('./aaa/bbb');
-	touch ('11.txt');
-	touch ('1.txt');
-	touch ('2.txt');
-	chdir ('../../');
+	echo "5. check find ... \n";
+	$r = eFilesystem::find ('./');
+	ePrint::echoi ($r, 4);
+	echo "\n\n";
 
-	echo "   check tree ... \n";
-	ob_start ();
-	eFilesystem::tree ('./aaa');
-	$capture = ob_get_contents ();
-	ob_end_clean ();
-	ePrint::echoi ($capture, 4);
-}
+	echo "##### OBJ  test #############################################\n";
 
-echo '3. check unlink_r ... ';
-$r = eFilesystem::unlink_r ('./aaa');
-answer ($r);
+	echo '1. check file_nr ... ';
+	$fs = new eFilesystem;
 
-echo "4. check dirlist ...\n";
-$r = eFilesystem::dirlist ('./');
-$r = array_merge ($r, eFilesystem::dirlist ('./', eFilesystem::RELATIVE));
-$r = array_merge ($r, eFilesystem::dirlist ('./', eFilesystem::ABSOLUTE));
-ePrint::echoi ($r, 4);
-echo "\n";
+	$r = $fs->file_nr ('eFilesystem.php');
+	answer (is_array ($r) ? true : false);
+	/*
+	if ( is_array ($r) ) {
+		$fs->echoi ($r, 4);
+		echo "\n";
+	}
+	 */
+	unset ($r);
 
-echo "5. check find ... \n";
-$r = eFilesystem::find ('./');
-ePrint::echoi ($r, 4);
-echo "\n\n";
+	echo '2. check mkdir_p ... ';
+	#echo $fs->whiteSpace (4, true) . "indent 4\n";
+	$r = $fs->mkdir_p ('./aaa/bbb');
+	answer ($r);
+	if ( $r === true ) {
+		chdir ('./aaa/bbb');
+		touch ('11.txt');
+		touch ('1.txt');
+		touch ('2.txt');
+		chdir ('../../');
 
-echo "##### OBJ  test #############################################\n";
+		echo "   check tree ... \n";
+		ob_start ();
+		$fs->tree ('./aaa');
+		$capture = ob_get_contents ();
+		ob_end_clean ();
+		$fs->echoi ($capture, 4);
+	}
 
-echo '1. check file_nr ... ';
-$fs = new eFilesystem;
+	echo '3. check unlink_r ... ';
+	$r = $fs->unlink_r ('./aaa');
+	answer ($r);
 
-$r = $fs->file_nr ('eFilesystem.php');
-answer (is_array ($r) ? true : false);
-/*
-if ( is_array ($r) ) {
+	echo "4. check dirlist ...\n";
+	$r = $fs->dirlist ('./');
+	$r = array_merge ($r, $fs->dirlist ('./', eFilesystem::RELATIVE));
+	$r = array_merge ($r, $fs->dirlist ('./', eFilesystem::ABSOLUTE));
 	$fs->echoi ($r, 4);
 	echo "\n";
-}
- */
-unset ($r);
 
-echo '2. check mkdir_p ... ';
-#echo $fs->whiteSpace (4, true) . "indent 4\n";
-$r = $fs->mkdir_p ('./aaa/bbb');
-answer ($r);
-if ( $r === true ) {
-	chdir ('./aaa/bbb');
-	touch ('11.txt');
-	touch ('1.txt');
-	touch ('2.txt');
-	chdir ('../../');
-
-	echo "   check tree ... \n";
-	ob_start ();
-	$fs->tree ('./aaa');
-	$capture = ob_get_contents ();
-	ob_end_clean ();
-	$fs->echoi ($capture, 4);
-}
-
-echo '3. check unlink_r ... ';
-$r = $fs->unlink_r ('./aaa');
-answer ($r);
-
-echo "4. check dirlist ...\n";
-$r = $fs->dirlist ('./');
-$r = array_merge ($r, $fs->dirlist ('./', eFilesystem::RELATIVE));
-$r = array_merge ($r, $fs->dirlist ('./', eFilesystem::ABSOLUTE));
-$fs->echoi ($r, 4);
+	echo "5. check find ... \n";
+	$r = $fs->find ('./');
+	$fs->echoi ($r, 4);
 echo "\n";
-
-echo "5. check find ... \n";
-$r = $fs->find ('./');
-$fs->echoi ($r, 4);
-echo "\n";
+} catch ( myException $e ) {
+	fprintf (STDERR, "%s\n", $e->Message ());
+	#print_r ($e);
+	#print_r ($e->Trace ());
+	#echo $e->TraceAsString () . "\n";
+	print_r ($e->TraceAsArray ()) . "\n";
+	$e->finalize ();
+}
 ?>

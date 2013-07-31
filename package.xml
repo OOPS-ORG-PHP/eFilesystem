@@ -12,7 +12,7 @@
 		<active>yes</active>
 	</lead>
 	<date>2013-08-01</date>
-	<time>02:14:32</time>
+	<time>02:44:57</time>
 	<version>
 		<release>1.0.3</release>
 		<api>1.0.0</api>
@@ -26,10 +26,11 @@
   - stdClass로 선언되지 않은 빈 변수를 object로 사용하는 문제 해결
   - E_STRICT 문제 해결
 * parse_ini method를 stdClass로 반환하도록 2번째 optional parameter 추가
+* warning message를 myException으로 처리
 </notes>
 	<contents>
 		<dir name="/">
-			<file role="php" md5sum="bf3d7bbdb87da37271d400078c18ae95" name="eFilesystem.php" />
+			<file role="php" md5sum="e4c3d2267b5863d08d92c3a8e8ca162a" name="eFilesystem.php" />
 		</dir>
 	</contents>
 	<dependencies>
@@ -64,6 +65,7 @@
   - stdClass로 선언되지 않은 빈 변수를 object로 사용하는 문제 해결
   - E_STRICT 문제 해결
 * parse_ini method를 stdClass로 반환하도록 2번째 optional parameter 추가
+* warning message를 myException으로 처리
 </notes>
 		</release>
 		<release>

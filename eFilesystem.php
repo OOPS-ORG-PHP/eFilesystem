@@ -19,6 +19,12 @@
  */
 
 /**
+ * myException 의존성
+ * pear.oops.org/myException
+ */
+require_once 'myException.php';
+
+/**
  * eFilesystem API는 pear.oops.org/ePrint pear package에 의존성이 있다.
  * ePrint 패키지는 최소 1.0.1 버전을 필요로 한다.
  */
@@ -44,7 +50,7 @@ class eFilesystem extends ePrint {
 	 * file_nr method는 file 함수와는 달리 각 행의 개행을 포함하지 않는다.
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 26 3}
+	 * {@example pear_eFilesystem/test.php 27 3}
 	 *
 	 * @access public
 	 * @return array|false 파일의 각 행을 배열로 반환. 파일이 존재하지 않거나
@@ -91,7 +97,7 @@ class eFilesystem extends ePrint {
 	 *
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 37 18}
+	 * {@example pear_eFilesystem/test.php 38 18}
 	 *
 	 * @access public
 	 * @return boolean 생성에 실패하면 false를 반환하고, 성공하면 true를 
@@ -160,7 +166,7 @@ class eFilesystem extends ePrint {
 		if ( $r === true )
 			return;
 
-		$func = ' for eFilesystem::safe_unlink()';
+		#$func = ' for eFilesystem::safe_unlink()';
 
 		switch ($r) {
 			case 2 : return "{$path} not found {$func}"; break;
@@ -179,7 +185,7 @@ class eFilesystem extends ePrint {
 	 * 디렉토리에 파일이나 하위 디렉토리가 포함하더라도 모두 삭제를 한다.
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 56 3}
+	 * {@example pear_eFilesystem/test.php 57 3}
 	 *
 	 * @access public
 	 * @return boolean
@@ -188,7 +194,8 @@ class eFilesystem extends ePrint {
 	 */
 	static public function unlink_r ($path) {
 		if ( ! trim ($path) ) {
-			parent::warning ('PATH is null string for eFilesystem::unlink_r()');
+			#parent::warning ('PATH is null string for eFilesystem::unlink_r()');
+			throw new myException ('PATH is empty string', E_USER_WARNING);
 			return false;
 		}
 
@@ -196,7 +203,8 @@ class eFilesystem extends ePrint {
 		if ( preg_match ('/([*])|({[^,]+,)/', $path) ) {
 			$l = glob ($path, GLOB_BRACE);
 			if ( $l === false || empty ($l) ) {
-				parent::warning ("11 {$path} not found for eFilesystem::unlink_r()");
+				#parent::warning ("11 {$path} not found for eFilesystem::unlink_r()");
+				throw new myException (sprintf ('%s not found', $path), E_USER_WARNING);
 				return false;
 			}
 
@@ -206,7 +214,8 @@ class eFilesystem extends ePrint {
 				else {
 					self::safe_unlink ($v);
 					if ( $r !== true ) {
-						parent::warning (self::safe_unlink_msg ($r, $path));
+						#parent::warning (self::safe_unlink_msg ($r, $path));
+						throw new myException (self::safe_unlink_msg ($r, $path), E_USER_ERROR);
 						return false;
 					}
 				}
@@ -216,7 +225,8 @@ class eFilesystem extends ePrint {
 		}
 
 		if ( ! file_exists ($path) ) {
-			parent::warning ("{$path} not found for eFilesystem::unlink_r()");
+			#parent::warning ("{$path} not found for eFilesystem::unlink_r()");
+			throw new myException (sprintf ('%s not found', $path), E_USER_WARNING);
 			return false;
 		}
 
@@ -224,7 +234,8 @@ class eFilesystem extends ePrint {
 		if ( ! is_dir ($path) ) {
 			$r = self::safe_unlink ($path);
 			if ( $r !== true ) {
-				parent::warning (self::safe_unlink_msg ($r, $path));
+				#parent::warning (self::safe_unlink_msg ($r, $path));
+				throw new myException (self::safe_unlink_msg ($r, $path), E_USER_WARNING);
 				return false;
 			}
 			return $r;
@@ -245,8 +256,10 @@ class eFilesystem extends ePrint {
 				$r = self::unlink_r ($fullpath);
 			else {
 				$r = self::safe_unlink ($fullpath);
-				if ( $r !== true )
-					parent::warning (self::safe_unlink_msg ($r, $fullpath));
+				if ( $r !== true ) {
+					#parent::warning (self::safe_unlink_msg ($r, $fullpath));
+					throw new myException (self::safe_unlink_msg ($r, $fullpath), E_USER_WARNING);
+				}
 			}
 
 			if ( $r !== true ) {
@@ -265,7 +278,7 @@ class eFilesystem extends ePrint {
 	 * 주어진 디렉토리 하위의 리스트를 배열로 반환
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 60 6}
+	 * {@example pear_eFilesystem/test.php 61 6}
 	 *
 	 * @access public
 	 * @return array|false
@@ -313,7 +326,7 @@ class eFilesystem extends ePrint {
 	 * 시스템상의 tree 명령의 결과와 비슷하게 출력한다.
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 37 18}
+	 * {@example pear_eFilesystem/test.php 38 18}
 	 *
 	 * @access public
 	 * @return stdClass 파일과 디렉토리 수를 반환
@@ -387,7 +400,7 @@ class eFilesystem extends ePrint {
 	 * 배열로 반환한다.
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 67 4}
+	 * {@example pear_eFilesystem/test.php 68 4}
 	 *
 	 * @access public
 	 * @return array|false 파일 리스트를 배열로 반환. 경로를 지정하지 않았거나,
@@ -520,7 +533,8 @@ class eFilesystem extends ePrint {
 	 */
 	static public function parse_ini ($f, $obj = false) {
 		if ( is_array ($f) || is_object ($f) ) {
-			parent::warning ('Invalid type of argument 1. File or string is valid');
+			#parent::warning ('Invalid type of argument 1. File or string is valid');
+			throw new myException ('Invalid type of argument 1. File or string is valid', E_USER_WARNING);
 			return array ();
 		}
 
@@ -606,7 +620,8 @@ class eFilesystem extends ePrint {
 	 */
 	private static function parse_ini_obj (&$f) {
 		if ( is_array ($f) || is_object ($f) ) {
-			parent::warning ('Invalid type of argument 1. File or string is valid');
+			#parent::warning ('Invalid type of argument 1. File or string is valid');
+			throw new myException ('Invalid type of argument 1. File or string is valid', E_USER_WARNING);
 			return array ();
 		}
 
@@ -692,8 +707,9 @@ class eFilesystem extends ePrint {
 	 * @since  버전 1.0.2
 	 */
 	static public function make_ini ($input) {
-		if ( ! is_array ($input) && ! is_object ($input) ) {
-			parent::warning ('Invalid type of argument 1. Array is valid');
+		if ( ! is_array ($input) && ! is_object ($input1) ) {
+			#parent::warning ('Invalid type of argument 1. Array is valid');
+			throw new myException ('Invalid type of argument 1. Array is valid', E_USER_WARNING);
 			return false;
 		}
 
@@ -702,7 +718,8 @@ class eFilesystem extends ePrint {
 			$r = "[{$key}]\n";
 
 			if ( ! is_array ($v) && ! is_object ($v) ) {
-				parent::warning ('Invalid array data format');
+				#parent::warning ('Invalid array data format');
+				throw new myException ('Invalid array data format', E_USER_WARNING);
 				return false;
 			}
 
