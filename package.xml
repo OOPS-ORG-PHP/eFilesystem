@@ -1,117 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package version="2.0" packagerversion="1.7.2" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
-	<!-- $Id$ -->
-	<name>eFilesystem</name>
-	<channel>pear.oops.org</channel>
-	<summary>Extends Print API</summary>
-	<description>Support Various print API</description>
-	<lead>
-		<name>JoungKyun.Kim</name>
-		<user>joungkyun</user>
-		<email>joungkyun@gmail.com</email>
-		<active>yes</active>
-	</lead>
-	<date>2013-08-01</date>
-	<time>02:44:57</time>
-	<version>
-		<release>1.0.3</release>
-		<api>1.0.0</api>
-	</version>
-	<stability>
-		<release>stable</release>
-		<api>stable</api>
-	</stability>
-	<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-	<notes>* PHP 5.4 대응
-  - stdClass로 선언되지 않은 빈 변수를 object로 사용하는 문제 해결
-  - E_STRICT 문제 해결
-* parse_ini method를 stdClass로 반환하도록 2번째 optional parameter 추가
-* warning message를 myException으로 처리
-</notes>
-	<contents>
-		<dir name="/">
-			<file role="php" md5sum="e4c3d2267b5863d08d92c3a8e8ca162a" name="eFilesystem.php" />
-		</dir>
-	</contents>
-	<dependencies>
-		<required>
-			<php>
-				<min>5.0.0</min>
-			</php>
-			<pearinstaller>
-				<min>1.4.3</min>
-			</pearinstaller>
-			<package>
-				<name>ePrint</name>
-				<channel>pear.oops.org</channel>
-				<min>1.0.1</min>
-			</package>
-		</required>
-	</dependencies>
-	<phprelease />
-	<changelog>
-		<release>
-			<version>
-				<release>1.0.3</release>
-				<api>1.0.0</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2013-08-01</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-			<notes>* PHP 5.4 대응
-  - stdClass로 선언되지 않은 빈 변수를 object로 사용하는 문제 해결
-  - E_STRICT 문제 해결
-* parse_ini method를 stdClass로 반환하도록 2번째 optional parameter 추가
-* warning message를 myException으로 처리
-</notes>
-		</release>
-		<release>
-			<version>
-				<release>1.0.2</release>
-				<api>1.0.0</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2012-10-14</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-			<notes>* add make_ini method
-* call ePrint class with php extends
-* now mkdir_p retuns only boolean
-</notes>
-		</release>
-		<release>
-			<version>
-				<release>1.0.1</release>
-				<api>1.0.0</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2010-11-15</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-			<notes>* add parse_ini method
-</notes>
-		</release>
-		<release>
-			<version>
-				<release>1.0.0</release>
-				<api>1.0.0</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2009-08-07</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-			<notes>* release 1.0.0
-* forked pear_eSystem::filesystem
-</notes>
-		</release>
-	</changelog>
+<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>eFilesystem</name>
+ <channel>pear.oops.org</channel>
+ <summary>Extends Print API</summary>
+ <description>Support Various print API</description>
+ <lead>
+  <name>JoungKyun.Kim</name>
+  <user>joungkyun</user>
+  <email>joungkyun@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2010-11-15</date>
+ <time>13:54:52</time>
+ <version>
+  <release>1.0.1</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+ <notes>* add parse_ini method</notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="364d5c8bdcf4bfb11310206b7e96f3a6" name="eFilesystem.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.3</min>
+   </pearinstaller>
+   <package>
+    <name>ePrint</name>
+    <channel>pear.oops.org</channel>
+    <min>1.0.1</min>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-11-15</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>* add parse_ini method</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-11-15</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>* release 1.0.0
+* forked pear_eSystem::filesystem</notes>
+  </release>
+ </changelog>
 </package>
