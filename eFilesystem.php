@@ -336,6 +336,7 @@ class eFilesystem extends ePrint {
 	 *       [file] => 파일 수
 	 *       [dir]  => 디렉토리 수
 	 *   )
+	 *   </pre>
 	 * @param string  (optional) 주어진 경로. 기본값은 현재 디렉토리(./)
 	 * @param string  (optional) 재귀 호출을 위해 사용. 이 파라미터는 사용하지
 	 *                않는다.
