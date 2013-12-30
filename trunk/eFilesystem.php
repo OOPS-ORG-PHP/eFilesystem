@@ -708,7 +708,7 @@ class eFilesystem extends ePrint {
 	 * @since  버전 1.0.2
 	 */
 	static public function make_ini ($input) {
-		if ( ! is_array ($input) && ! is_object ($input1) ) {
+		if ( ! is_array ($input) && ! is_object ($input) ) {
 			#parent::warning ('Invalid type of argument 1. Array is valid');
 			throw new myException ('Invalid type of argument 1. Array is valid', E_USER_WARNING);
 			return false;

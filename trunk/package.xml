@@ -11,8 +11,8 @@
 		<email>joungkyun@gmail.com</email>
 		<active>yes</active>
 	</lead>
-	<date>2013-11-22</date>
-	<time>23:52:18</time>
+	<date>2013-12-31</date>
+	<time>02:53:20</time>
 	<version>
 		<release>1.0.4</release>
 		<api>1.0.0</api>
@@ -22,11 +22,11 @@
 		<api>stable</api>
 	</stability>
 	<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-	<notes>
+	<notes>* make_ini method에서 stdClass type 처리 못하는 문제 수정
 </notes>
 	<contents>
 		<dir name="/">
-			<file role="php" md5sum="a9428e5302c0eb4e9e1e3c09f99a6219" name="eFilesystem.php" />
+			<file role="php" md5sum="9037f053c2b4a05b01c0efbdae90d909" name="eFilesystem.php" />
 		</dir>
 	</contents>
 	<dependencies>
@@ -55,9 +55,9 @@
 				<release>stable</release>
 				<api>stable</api>
 			</stability>
-			<date>2013-11-22</date>
+			<date>2013-12-31</date>
 			<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-			<notes>
+			<notes>* make_ini method에서 stdClass type 처리 못하는 문제 수정
 </notes>
 		</release>
 		<release>
