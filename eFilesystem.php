@@ -662,12 +662,15 @@ class eFilesystem extends ePrint {
 
 				$var = '$ret->' . $varname;
 				if ( $_varname == 'value' ) {
-					if ( preg_match ('/^(true|false|on|off|[01])$/', $_value, $matches) ) {
+					if ( preg_match ('/^(true|false|on|off|null|[01])$/', $_value, $matches) ) {
 						switch ($matches[1]) {
 							case 'true' :
 							case 'on' :
 							case '1' :
 								$var .= ' = 1;';
+								break;
+							case 'null' :
+								$var .= ' = null;';
 								break;
 							default :
 								$var .= ' = 0;';
@@ -682,12 +685,15 @@ class eFilesystem extends ePrint {
 						$var .= '->' . $var_brace_start . $_varname_r[$i] . $var_brace_end;
 					}
 
-					if ( preg_match ('/^(true|false|on|off|[01])$/', $_value, $matches) ) {
+					if ( preg_match ('/^(true|false|on|off|null|[01])$/', $_value, $matches) ) {
 						switch ($matches[1]) {
 							case 'true' :
 							case 'on' :
 							case '1' :
 								$var .= ' = 1;';
+								break;
+							case 'null' :
+								$var .= ' = null;';
 								break;
 							default :
 								$var .= ' = 0;';
