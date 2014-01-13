@@ -683,6 +683,7 @@ class eFilesystem extends ePrint {
 						$var_brace_start = is_numeric ($_varname_r[$i]) ? '{' : '';
 						$var_brace_end   = is_numeric ($_varname_r[$i]) ? '}' : '';
 						$var .= '->' . $var_brace_start . $_varname_r[$i] . $var_brace_end;
+						eval ($var . ' = new stdClass;');
 					}
 
 					if ( preg_match ('/^(true|false|on|off|null|[01])$/', $_value, $matches) ) {
