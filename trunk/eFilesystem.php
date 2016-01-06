@@ -9,7 +9,7 @@
  * @category    System
  * @package     eFilesystem
  * @author      JoungKyun.Kim <http://oops.org>
- * @copyright   (c) 2015 OOPS.ORG
+ * @copyright   (c) 2016 OOPS.ORG
  * @license     BSD
  * @version     $Id$
  * @link        http://pear.oops.org/package/eFilesystem
@@ -78,9 +78,8 @@ class eFilesystem extends ePrint {
 		if ( ! is_resource ($resource) )
 			fclose ($fp);
 
-		if ( ! $_buf[--$i] ) :
+		if ( ! $_buf[--$i] )
 			unset ($_buf[$i]);
-		endif;
 
 		return $_buf;
 	}
@@ -455,13 +454,11 @@ class eFilesystem extends ePrint {
 						$file[] = $v;
 					break;
 				default :
-					if ( $type ) :
-						if ( preg_match ($type, $v) ) :
+					if ( $type ) {
+						if ( preg_match ($type, $v) )
 							$file[] = $v;
-						endif;
-					else :
+					} else
 						$file[] = $v;
-					endif;
 			}
 
 			if ( is_dir ($v) && $norecursive === false ) {
