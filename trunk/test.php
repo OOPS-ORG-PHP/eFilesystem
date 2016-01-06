@@ -14,7 +14,7 @@
  * @since     File available since relase 0.0.1
  */
 
-require_once 'eFilesystem.php';
+require_once './eFilesystem.php';
 
 function answer ($v) {
 	echo ( $v === true ) ? 'OK' : 'FALSE';
