@@ -9,12 +9,12 @@
  * @category    System
  * @package     eFilesystem
  * @author      JoungKyun.Kim <http://oops.org>
- * @copyright   (c) 2016 OOPS.ORG
+ * @copyright   (c) 2018, OOPS.ORG
  * @license     BSD
  * @version     $Id$
  * @link        http://pear.oops.org/package/eFilesystem
  * @since       File available since relase 1.0.0
- * @example     pear_eFilesystem/test.php Sameple codes of eFilesystem class
+ * @example     eFilesystem/test.php Sameple codes of eFilesystem class
  * @filesource
  */
 
@@ -50,7 +50,7 @@ class eFilesystem extends ePrint {
 	 * file_nr method는 file 함수와는 달리 각 행의 개행을 포함하지 않는다.
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 27 3}
+	 * {@example eFilesystem/test.php 27 3}
 	 *
 	 * @access public
 	 * @return array|false 파일의 각 행을 배열로 반환. 파일이 존재하지 않거나
@@ -96,7 +96,7 @@ class eFilesystem extends ePrint {
 	 *
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 38 18}
+	 * {@example eFilesystem/test.php 38 18}
 	 *
 	 * @access public
 	 * @return boolean 생성에 실패하면 false를 반환하고, 성공하면 true를 
@@ -184,7 +184,7 @@ class eFilesystem extends ePrint {
 	 * 디렉토리에 파일이나 하위 디렉토리가 포함하더라도 모두 삭제를 한다.
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 57 3}
+	 * {@example eFilesystem/test.php 57 3}
 	 *
 	 * @access public
 	 * @return boolean
@@ -277,7 +277,7 @@ class eFilesystem extends ePrint {
 	 * 주어진 디렉토리 하위의 리스트를 배열로 반환
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 61 6}
+	 * {@example eFilesystem/test.php 61 6}
 	 *
 	 * @access public
 	 * @return array|false
@@ -325,7 +325,7 @@ class eFilesystem extends ePrint {
 	 * 시스템상의 tree 명령의 결과와 비슷하게 출력한다.
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 38 18}
+	 * {@example eFilesystem/test.php 38 18}
 	 *
 	 * @access public
 	 * @return stdClass 파일과 디렉토리 수를 반환
@@ -400,7 +400,7 @@ class eFilesystem extends ePrint {
 	 * 배열로 반환한다.
 	 *
 	 * 예제:
-	 * {@example pear_eFilesystem/test.php 68 4}
+	 * {@example eFilesystem/test.php 68 4}
 	 *
 	 * @access public
 	 * @return array|false 파일 리스트를 배열로 반환. 경로를 지정하지 않았거나,
